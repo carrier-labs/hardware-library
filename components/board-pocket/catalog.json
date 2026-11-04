@@ -1,0 +1,54 @@
+{
+  "title": "Board pocket, for boards without holes",
+  "kind": "Holder",
+  "summary": "For a board with no mounting holes: it sits on a central pedestal with a pad of double-sided foam tape, inside a low wall that follows its outline. The pedestal keeps the edges clear for soldered lead stubs, and gaps in the wall let the leads out. In a closed box, a pad under the lid presses foam onto the board.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): receiver and rack-ends (C3, S3, RS485)",
+  "views": [
+    {
+      "id": "pocket", "label": "In the pocket",
+      "caption": "A C3 Super Mini's pocket. Drag the slider to lift the board off its tape. The wall is 1.0 above the board's underside, with a 6 mm lead gap in each side; the pedestal is 2.5 tall.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Pocket and floor"},
+        {"name": "tape", "scad": "views/board.scad", "defines": {"part": "tape"}, "role": "component", "label": "Foam tape"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Board", "moves": true}
+      ],
+      "move": {"label": "Lift the board out", "axis": "z", "from": 0, "to": 10}
+    },
+    {
+      "id": "lid", "label": "Lid hold-down",
+      "caption": "A pad under the lid presses a 3 mm foam pad onto the board, squashing it by 1. The lid clamps the board, and the foam takes up any error in its thickness.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Pocket and floor"},
+        {"name": "lid", "scad": "views/lid.scad", "role": "plastic", "label": "Lid strip and pad"},
+        {"name": "tape", "scad": "views/board.scad", "defines": {"part": "tape"}, "role": "component", "label": "Foam tape"},
+        {"name": "foam", "scad": "views/board.scad", "defines": {"part": "foam"}, "role": "component", "label": "Foam pad"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Board"}
+      ]
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four pockets on a light frame, marked with 1 to 4 dots: the C3 Super Mini and the RS485 module, each at 0.3 (PLA) and 0.4 (PETG) round the outline.",
+      "parts": [{"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"}]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The pocket",
+      "rows": [["Pedestal", "2.5 tall, board less 4 all round unless set"], ["Foam tape", "1.0"], ["Wall", "1.2 thick, 1.0 above the board's underside"], ["Gap round the outline", "0.4 PETG · 0.3 PLA"], ["Lead gap", "6 wide, per side"]],
+      "note": "Each side can be a gap, solid (where a plug pushes) or open (where the board's end goes into a box wall).",
+      "badge": ["cal", "To test"], "badgeNote": "the outline gap is set by the fit piece"
+    },
+    {
+      "title": "The lid pad",
+      "rows": [["Foam under the pad", "3.0"], ["Squeeze", "1.0 (about a third for soft foam; 0.3 for felt)"], ["Pad underside", "surface + foam − squeeze"]],
+      "badge": ["cal", "To measure"], "badgeNote": "the foam you have"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Board", "Gap"],
+    "rows": [[1, "C3 Super Mini", "0.3"], [2, "C3 Super Mini", "0.4"], [3, "RS485 module", "0.3"], [4, "RS485 module", "0.4"]],
+    "checks": ["Does the board drop in without forcing?", "Does it sit without more rattle than you'd like?", "With tape on the pedestal, do the board's edges stay clear of the floor and the lead stubs clear of everything?", "Can you lift it out by its edges?"],
+    "print": "Print base down, no supports, in the enclosure's material."
+  }
+}

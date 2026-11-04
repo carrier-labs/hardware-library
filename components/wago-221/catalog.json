@@ -1,0 +1,45 @@
+{
+  "title": "WAGO 221 lever connector, snap clip",
+  "kind": "Connector",
+  "summary": "A WAGO 221 lever connector held flat on the floor. Push it down between two arms: they flex out over the sloped lead-ins and hook over its top edge at each short end. Corner stops locate it; the wire-entry face stays open. 2, 3 and 5 way, 4 mm² and 6 mm², selected by item number.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): controller base (ground bus)",
+  "views": [
+    {
+      "id": "in", "label": "How it goes in",
+      "caption": "Drag the slider to push the 221-415 down into the clip: the arms spread over the lead-ins, then the hooks snap over the top at each end. Wires go in from the open face on the left.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Clip"},
+        {"name": "wago", "scad": "views/wago.scad", "role": "component", "label": "WAGO 221-415", "moves": true}
+      ],
+      "move": {"label": "Push the WAGO in", "axis": "z", "from": 12, "to": 0}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four clips for a 221-415 on an open floor, marked with 1 to 4 engraved dots: three hook depths, and a tighter fit round the body.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"},
+        {"name": "wago4", "scad": "views/wago.scad", "defines": {"n": 4}, "role": "component", "label": "WAGOs"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "Sizes (L × D × H, levers closed)",
+      "rows": [["221-412, 2 way", "13.2 × 18.8 × 8.6"], ["221-413, 3 way", "18.7 × 18.6 × 8.3"], ["221-415 / 425, 5 way", "30.0 × 18.6 × 8.4"], ["221-612, 2 way 6 mm²", "16.0 × 21.1 × 10.1"], ["221-613, 3 way 6 mm²", "22.9 × 21.1 × 10.1"], ["221-615, 5 way 6 mm²", "36.7 × 21.1 × 10.1"]],
+      "note": "Strip 11 (4 mm²) or 12–14 (6 mm²). Leave room in front of the entries for the strip length and the bend.",
+      "badge": ["ok", "Data sheets"], "badgeNote": "WAGO; 221-415 measured; 221-413 from the brochure, to check"
+    },
+    {
+      "title": "The clip",
+      "rows": [["Hook over the top edge", "0.7"], ["Gap round the body", "0.4"], ["Hook above the top", "0.2"], ["Arms", "1.6 × 8, free from the floor"], ["Clip height, 221-415", "10.0"]],
+      "badge": ["cal", "To test"], "badgeNote": "the hook depth is set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Hook", "Gap"],
+    "rows": [[1, "0.4", "0.4"], [2, "0.7", "0.4"], [3, "1.0", "0.4"], [4, "0.7", "0.2"]],
+    "checks": ["Push it down: do both hooks snap over?", "Does it sit without rattling?", "Lift it by the levers: does it stay put?", "Can you prise a hook off and take it out without breaking an arm?"],
+    "print": "Print base down, no supports, PETG."
+  }
+}

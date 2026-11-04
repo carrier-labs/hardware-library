@@ -1,0 +1,54 @@
+{
+  "title": "FireBeetle 2 ESP32-E, USB-C through the wall",
+  "kind": "Board",
+  "summary": "DFRobot's FireBeetle 2 (60 × 25.4) on four M2 posts, its USB-C socket in a flush pocket in the box wall, walled in on all sides. The board's end tucks into a relief in the wall so it butts right up to it; a small light hole beside the port shows the charge LED. Also the S3 and C6 boards, same outline.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): controller base",
+  "views": [
+    {
+      "id": "in", "label": "How it goes in",
+      "caption": "Drag the slider to slide the board in over the post tops, socket first, until its end sits in the relief and the socket's face is flush outside. Then two screws at each end. Turn it round to see the port and the light hole beside it.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Posts, floor and wall"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "FireBeetle", "moves": true}
+      ],
+      "move": {"label": "Slide the board in", "axis": "x", "from": 6, "to": 0}
+    },
+    {
+      "id": "fixed", "label": "Screwed down",
+      "caption": "M2 × 8 button heads from the top into nuts trapped in the floor. The two by the wall come down through shallow channels in its inner face: the heads overlap the wall by about 1 mm. Cut it open to see the nut traps.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Posts, floor and wall"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "FireBeetle"},
+        {"name": "screws", "scad": "views/screws.scad", "role": "metal", "label": "Screws and nuts"}
+      ]
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "The USB end four times on a strip of 2.4 wall, marked 1 to 4 dots: posts nominal, 0.2 further from the wall, 0.2 closer, and self-tapping posts.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"},
+        {"name": "board4", "scad": "views/board.scad", "defines": {"shifts": [0, 0.2, -0.2, 0]}, "role": "board", "label": "Boards"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The board",
+      "rows": [["Board", "60.0 × 25.4 × 1.6"], ["Holes", "4 × Ø2.0 (M2), 1.7 in, 22.0 × 56.6"], ["USB-C", "centred, 1.47 past the edge, 3.2 tall"], ["Charge LED", "1.7 in from the USB edge, 7.3 off the socket's centre"], ["Also", "FireBeetle 2 ESP32-S3 / -C6: same outline and holes"]],
+      "note": "The S3 and C6 socket and LED positions are read off DFRobot's drawings: measure before relying on them. The original FireBeetle ESP32 (micro-USB, 58 × 29, M3) takes the posts only.",
+      "badge": ["ok", "Measured"], "badgeNote": "DFRobot STEP and drawing; board + USB-C 4.8 tall measured"
+    },
+    {
+      "title": "The holder",
+      "rows": [["Posts", "Ø5, 4.7 tall, M2 nut trap in a 2.0 floor"], ["Screws", "M2 × 8 button head"], ["Board's edge", "0.93 into a 2.4 wall"], ["Socket axis", "7.9 above the floor"], ["Light hole", "Ø1.5, 0.2 above the board"], ["Head channels", "Ø4.1, leave 1.1 of wall"]],
+      "badge": ["cal", "To test"], "badgeNote": "post position and nut v tap set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Posts", "Socket face", "Fixing"],
+    "rows": [[1, "nominal", "flush", "nut"], [2, "+0.2 from the wall", "0.2 back", "nut"], [3, "−0.2, closer", "0.2 proud", "nut"], [4, "nominal", "flush", "tap"]],
+    "checks": ["Does the board slide in, socket first, without forcing?", "Do the screws line up with the board's holes without pulling it sideways?", "Which face looks flush from outside?", "Plug a cable in: does it seat fully?", "Is the charge LED visible through the light hole while charging?", "Tap post: does the screw hold without splitting the post?"],
+    "print": "Print base down, no supports, in the enclosure's material."
+  }
+}

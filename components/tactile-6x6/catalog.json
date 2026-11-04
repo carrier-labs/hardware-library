@@ -1,0 +1,51 @@
+{
+  "title": "Tactile switch 6×6",
+  "kind": "Switch",
+  "summary": "A 6 × 6 push switch on its side, stem out through a plain round hole in the box wall. Set it on its seat, push it forward, and two flexing cheeks snap their teeth in behind it. The teeth take the press.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): controller base",
+  "views": [
+    {
+      "id": "in", "label": "How it goes in",
+      "caption": "Drag the slider to push the switch from its seat into the hole: the cheeks spread, then the teeth snap in behind the body. Section cuts in from the side, through a cheek and its tooth.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Holder and wall"},
+        {"name": "switch", "scad": "views/switch.scad", "role": "component", "label": "Switch", "moves": true}
+      ],
+      "move": {"label": "Push the switch in", "axis": "x", "from": 4.6, "to": 0}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four holders on one strip of 2.4 wall, marked with 1 to 4 engraved dots: three tooth depths, and a tighter fit round the body.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"},
+        {"name": "switch4", "scad": "views/switch.scad", "defines": {"n": 4}, "role": "component", "label": "Switches"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The switch",
+      "rows": [["Body", "6.0 × 6.0 × 2.8"], ["Back of body to stem tip", "6.4"], ["Stem", "Ø 3.5"], ["Stem past a 2.4 wall", "1.2"], ["Legs", "2 per side, 4.5 apart"]],
+      "note": "Fit it with the legs to the sides: they slide along grooves in the cheeks, above and below the teeth.",
+      "badge": ["ok", "Measured"], "badgeNote": "BOJACK low-profile, 30 Oct 2026"
+    },
+    {
+      "title": "Sizes (BOJACK kit)",
+      "rows": [["Low profile, \"lp\"", "6.4 overall, 2.8 body"], ["Kit heights", "4.3, 5, 6, 7 … 13 overall"], ["Body, kit heights", "3.5 assumed"], ["Stem past a 2.4 wall, standoff 0", "\"7\": 1.1 · \"10\": 4.1 · \"13\": 7.1"], ["Shortest to clear a 2.4 wall", "\"6\""]],
+      "note": "Pick a switch by name; tact6x6Standoff(name, wall, proud) sets it back from the wall so the stem stands the same distance proud whatever its length.",
+      "badge": ["cal", "To measure"], "badgeNote": "only the low-profile one is measured"
+    },
+    {
+      "title": "The holder",
+      "rows": [["Stem hole", "Ø 3.9, round"], ["Teeth reach in behind the body", "0.6"], ["Gap body to cheeks", "0.3 per side"], ["Body to teeth", "0.1"], ["Floor needed behind the wall", "8"]],
+      "badge": ["cal", "To test"], "badgeNote": "the tooth depth is set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Tooth", "Gap"],
+    "rows": [[1, "0.4", "0.3"], [2, "0.6", "0.3"], [3, "0.8", "0.3"], [4, "0.6", "0.2"]],
+    "checks": ["Push it in: does it click?", "Does it sit without rattling, stem centred in the hole?", "Does a press click cleanly, without the switch moving back?", "Can you pull it back out without breaking a cheek?"],
+    "print": "Print base down, no supports, PETG."
+  }
+}

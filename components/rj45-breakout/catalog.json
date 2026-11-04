@@ -1,0 +1,53 @@
+{
+  "title": "RJ45 breakout, flush in a wall",
+  "kind": "Connector",
+  "summary": "A horizontal RJ45 breakout (The Pi Hut 106592) on two M2.5 screw posts, its jack in a close pocket through the wall with the face level with the outside. The plug's latch comes out of the jack's own face, so it's clear to press. Parametric over jack bodies (mid-mount, shielded, unshielded) and wall thickness.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): (room receiver, rack-ends, Y-splitter)",
+  "views": [
+    {
+      "id": "wall", "label": "In the wall",
+      "caption": "Pi Hut breakout behind a 2.0 wall. The jack overhangs the board by 2.28, more than the wall, so its face is flush outside and the board's edge stops 0.28 short of the wall. Slide the board out to see the pocket, 0.3 per side round the jack.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Wall, floor and posts"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Breakout", "moves": true},
+        {"name": "jack", "scad": "views/jack.scad", "role": "metal", "label": "Jack", "moves": true}
+      ],
+      "move": {"label": "Slide the board out", "axis": "x", "from": 0, "to": 10}
+    },
+    {
+      "id": "fixing", "label": "Screws and nuts",
+      "caption": "M2.5 × 8 in from the top, nuts trapped in hex pockets in the 2.4 floor's underside.",
+      "parts": [
+        {"name": "station2", "scad": "views/station.scad", "role": "plastic", "label": "Wall, floor and posts"},
+        {"name": "board2", "scad": "views/board.scad", "role": "board", "label": "Breakout"},
+        {"name": "screws", "scad": "views/screws.scad", "role": "metal", "label": "Screws and nuts"}
+      ]
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four pockets in a strip of 2.0 wall, 0.15 to 0.40 per side, each with its two posts on a ladder of floor. Marked with 1 to 4 dots between the posts.",
+      "parts": [{"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"}]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The breakout (Pi Hut 106592)",
+      "rows": [["Board", "23.98 × 29.90 × 1.6"], ["Holes", "2 × Ø2.75 (M2.5), 24.92 apart, 7.39 from the header edge"], ["Jack", "16 wide, centred; −1.15 to 10.35 about the PCB underside"], ["Jack past the board edge", "2.28"]],
+      "note": "Mid-mount: the jack drops 1.15 through the board, so posts under 2.2 would put it on the floor.",
+      "badge": ["ok", "From STEP"], "badgeNote": "The Pi Hut's model; jack depth and latch side CAL"
+    },
+    {
+      "title": "The holder",
+      "rows": [["Posts", "M2.5, Ø6 × 4.2, nut trap below"], ["Floor", "2.4"], ["Screw", "M2.5 × 8"], ["Gap round the jack", "0.3 per side"], ["Outside lead-in", "0.3 chamfer"]],
+      "note": "Wall thicker than the jack's overhang: the board's end tucks into a relief in the inner face. If that would leave under 1.0 beside the jack, the face sits back and the outside opens on the latch side.",
+      "badge": ["cal", "To test"], "badgeNote": "the gap is set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Gap per side"],
+    "rows": [[1, "0.15"], [2, "0.20"], [3, "0.30"], [4, "0.40"]],
+    "checks": ["Slide the board along the post tops into the pocket: light push, no rattle?", "Do the holes line up with the posts without forcing?", "Is the jack's face flush with the outside, the gap even all round?", "Plug a cable in: does it click? Press the latch: does it come out without catching the wall?"],
+    "print": "Print base down, no supports, in the enclosure's material. Needs two M2.5 × 8 and nuts per station."
+  }
+}

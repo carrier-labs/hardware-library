@@ -1,0 +1,7 @@
+# make output
+out/
+
+# OS and editor
+.DS_Store
+.idea/
+*.log

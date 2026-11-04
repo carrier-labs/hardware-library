@@ -1,0 +1,47 @@
+{
+  "title": "ESP32-S3 DevKitC, one USB port through a wall",
+  "kind": "Board",
+  "summary": "The S3 DevKitC (and its YD-ESP32-S3 clone) has no mounting holes and two USB ports. It sits on a taped pedestal between its pin rows in an outline pocket. Only one port comes through the wall, flush; the other stays behind a skin of wall so nothing gets plugged into the wrong one.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): rack-ends",
+  "views": [
+    {
+      "id": "in", "label": "In the box",
+      "caption": "YD clone, right-hand port open (seen from outside). Turn it round: the open port sits 0.62 back from the outside, the other has a blind pocket behind 0.47 of wall. Drag the slider to pull the board back. To fit it for real, tip it nose-down and lay it onto the tape.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Holder and wall"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Board", "moves": true},
+        {"name": "metal", "scad": "views/board.scad", "defines": {"part": "metal"}, "role": "metal", "label": "Module and USB ports", "moves": true}
+      ],
+      "move": {"label": "Pull the board back", "axis": "x", "from": 0, "to": 3}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "The USB end of four holders on one strip of 2.4 wall, marked 1 to 4 dots: the open port's face 0.62, 0.8 and 1.0 back from the outside, and the tape squashed to 0.7.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"},
+        {"name": "board4", "scad": "views/board.scad", "defines": {"n": 4}, "role": "board", "label": "Boards"},
+        {"name": "metal4", "scad": "views/board.scad", "defines": {"n": 4, "part": "metal"}, "role": "metal", "label": "Modules and ports"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The board (YD clone)",
+      "rows": [["Board", "57.15 × 27.94 × 1.0"], ["USB-C ×2", "8.94 × 3.2, centres 8.2 and 19.7 from the left, 0.38 past the edge"], ["WROOM-1 module", "18 × 25.5 × 3.1, 6.24 past the back edge"], ["RGB LED", "19.0 from the USB edge, 8.6 from the left"], ["Mounting holes", "none"]],
+      "note": "Espressif's own DevKitC-1 v1.1 is 62.86 × 25.40 with two micro-USB ports: a variant, with a plain opening for the plug.",
+      "badge": ["cal", "To measure"], "badgeNote": "PCB, LED, which port is native USB"
+    },
+    {
+      "title": "The holder",
+      "rows": [["Pedestal", "40 × 14 × 2.5, 1.0 tape"], ["Outline gap", "0.4 per side; wall 0.8 above the underside"], ["Open port", "face 0.62 back, 0.15 per side"], ["Closed port", "blind pocket, 0.47 of wall in front"], ["Floor behind the wall", "about 62 × 31"]],
+      "badge": ["cal", "To test"], "badgeNote": "the recess and tape are set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Open port's face back", "Closed port's skin", "Tape"],
+    "rows": [[1, "0.62", "0.47", "1.0"], [2, "0.8", "0.65", "1.0"], [3, "1.0", "0.85", "1.0"], [4, "0.62", "0.47", "0.7"]],
+    "checks": ["Tip the board in: does the open socket go into its pocket and the board lay level on the tape?", "Is the open socket centred in its pocket?", "Plug a cable in: does it seat fully and click with the face that far back?", "Is the skin over the closed port whole and stiff enough, and does that port clear its pocket?"],
+    "print": "Print base down, no supports, in the enclosure's material."
+  }
+}

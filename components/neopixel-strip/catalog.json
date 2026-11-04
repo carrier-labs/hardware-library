@@ -1,0 +1,45 @@
+{
+  "title": "WS2812B strip piece, behind a window",
+  "kind": "Light",
+  "summary": "A cut piece of WS2812B (NeoPixel) strip drops into a slot 5 mm back from the wall, LEDs facing out. A front plate holds it upright and the gap spreads the light. The wall gets an open window, a thin diffuser skin printed in the wall, or a hole for a light pipe. Any strip width and LED pitch, one LED or several, standing up or lying along the wall.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): controller base (status light)",
+  "views": [
+    {
+      "id": "in", "label": "Up and along",
+      "caption": "Left: one LED on a 15 long piece standing up behind an open window, as in the controller base. Right: three LEDs on a piece lying along the wall behind a 0.6 diffuser skin. Drag the slider to lift the pieces out of their slots; turn it round to see the windows.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Holders and wall"},
+        {"name": "strip", "scad": "views/strip.scad", "role": "component", "label": "Strip pieces", "moves": true}
+      ],
+      "move": {"label": "Lift the pieces out", "axis": "z", "from": 0, "to": 16}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four holders for the 10 mm, 100/m strip on one strip of 2.4 wall, marked with 1 to 4 engraved dots: two slot clearances behind open windows, and two diffuser skins.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"},
+        {"name": "strip4", "scad": "views/strip.scad", "defines": {"layout": "fit"}, "role": "component", "label": "Strip pieces"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The strip",
+      "rows": [["In hand", "10 wide, 100/m, piece 15 long"], ["LED", "5.0 × 5.0 × 1.57 (WS2812B)"], ["Thick: bare / tape / IP65", "2.13 / 2.3 / 3.0"], ["10 wide", "30, 60, 100 per m"], ["12 wide", "74, 96, 144 per m"], ["Pitch", "1000 ÷ LEDs per m: 10 at 100/m"]],
+      "note": "Cut on the pads between LEDs: a piece of n LEDs is n pitches long.",
+      "badge": ["ok", "Measured"], "badgeNote": "width and piece length, 21 Oct 2026"
+    },
+    {
+      "title": "The holder",
+      "rows": [["Slot over the strip", "0.4 per side"], ["LED to the wall", "5"], ["Window", "8 square, R1.5"], ["Diffuser skin", "0.6"], ["Light pipe hole", "Ø5.2"]],
+      "badge": ["cal", "To test"], "badgeNote": "clearance and skin set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Gap", "Window"],
+    "rows": [[1, "0.2", "open"], [2, "0.4", "open"], [3, "0.3", "skin 0.4"], [4, "0.3", "skin 0.8"]],
+    "checks": ["Does the piece drop in and stand upright without rattling?", "Can you pull it out by its top edge?", "Light it: is the LED centred in the window?", "Skins: which glows evenly without a hot spot, and is it still bright enough?"],
+    "print": "Print base down, no supports, in the enclosure's material (white or natural for the skins)."
+  }
+}

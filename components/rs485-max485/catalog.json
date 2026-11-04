@@ -1,0 +1,58 @@
+{
+  "title": "RS485 module (MAX485), on the floor",
+  "kind": "Board",
+  "summary": "The JZK TTL-to-RS485 module has no mounting holes. It sits on a taped pedestal in an outline pocket with lead gaps at the bus end, the logic end and both long sides. In a closed box two lid pads press foam onto it, one inboard of each end's pin row.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): room receiver and rack-ends",
+  "views": [
+    {
+      "id": "pocket", "label": "In the pocket",
+      "caption": "Bus end (A+, B−, earth) on the left, logic end (VCC, TXD, RXD, GND) on the right, each with a 10 wide lead gap. Drag the slider to lift the board out.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Pocket and floor"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Board", "moves": true},
+        {"name": "chips", "scad": "views/board.scad", "defines": {"part": "chips"}, "role": "component", "label": "Chips", "moves": true}
+      ],
+      "move": {"label": "Lift the board out", "axis": "z", "from": 0, "to": 10}
+    },
+    {
+      "id": "lid", "label": "Lid hold-down",
+      "caption": "Two pads under the lid, 6 inboard of each end, press 3 mm foam onto the board, squashed by 1.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Pocket and floor"},
+        {"name": "lid", "scad": "views/lid.scad", "role": "plastic", "label": "Lid strips and pads"},
+        {"name": "foam", "scad": "views/board.scad", "defines": {"part": "foam"}, "role": "component", "label": "Foam"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Board"},
+        {"name": "chips", "scad": "views/board.scad", "defines": {"part": "chips"}, "role": "component", "label": "Chips"}
+      ]
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four pockets with a bridge where the logic-end lid pad would be, marked 1 to 4 dots: foam squeezed 0.5, 1.0, 1.5 and 2.0. The ends are open so the board slides in under the foam.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"},
+        {"name": "board4", "scad": "views/board.scad", "defines": {"n": 4}, "role": "board", "label": "Boards"},
+        {"name": "foam4", "scad": "views/board.scad", "defines": {"n": 4, "part": "foam"}, "role": "component", "label": "Foam"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The module (JZK)",
+      "rows": [["Board", "43 × 15.5 × 1.6"], ["Mounting holes", "none"], ["Bus end", "A+, B−, earth: 3 bare holes"], ["Logic end", "VCC, TXD, RXD, GND: 4 holes, 2.54"], ["Tallest part", "about 2 (SMD only)"]],
+      "note": "Variants: XY-017 (42.8 × 15.22 × 0.8) and the classic MAX485 module with a screw terminal (44 × 14).",
+      "badge": ["cal", "To measure"], "badgeNote": "PCB thickness"
+    },
+    {
+      "title": "The holder",
+      "rows": [["Pedestal", "26 × 9 × 2.5, 1.0 tape"], ["Outline gap", "0.4 per side"], ["Lead gaps", "10 at the ends, 6 in the sides"], ["Lid pads", "6 × 12.5, 6 inboard of each end"], ["Floor", "46.2 × 18.7"]],
+      "badge": ["cal", "To test"], "badgeNote": "the foam squeeze is set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Foam squeeze"],
+    "rows": [[1, "0.5"], [2, "1.0"], [3, "1.5"], [4, "2.0"]],
+    "checks": ["Slide the board in under the foam: can you, without forcing?", "Does the foam hold it firmly, without bowing the board?", "Give it a tug: does it stay put?", "Does the foam spring back when you take the board out?"],
+    "print": "Print base down, no supports, in the enclosure's material."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "title": "AS5600 encoder mount",
+  "kind": "Sensor",
+  "summary": "Holds an AS5600 magnetic encoder board under a magnet on a spindle tip. Corner lips locate the board by its outline, because the magnet axis must sit within 0.25 of the IC and the holes can't hold that. Four posts with stainless M2.5 screws up from below clamp it. The post height is worked out from the magnet's face.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): controller base",
+  "views": [
+    {
+      "id": "stack", "label": "Board under the magnet",
+      "caption": "23 mm board on 5.15 posts, as in the controller base: a 6 × 1 magnet on a spindle tip 11 above the floor, 1.5 above the IC. Drag the slider to bring the magnet down to its place. The four corner lips locate the board; the screws only clamp it.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Floor, posts and lips"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "AS5600 board"},
+        {"name": "screws", "scad": "views/screws.scad", "role": "metal", "label": "Screws, washers, nuts"},
+        {"name": "magnet", "scad": "views/magnet.scad", "role": "metal", "label": "Magnet", "moves": true}
+      ],
+      "move": {"label": "Bring the magnet down", "axis": "z", "from": 8, "to": 0}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four mounts on one strip of floor, lips 0.05 to 0.25 per side off the board, marked with 1 to 4 dots between the front posts. Low posts to save plastic; a slot through each floor for header pins.",
+      "parts": [{"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"}]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The board",
+      "rows": [["Board", "23 × 23 × 1.6"], ["Holes", "3 × Ø3.5 + 1 × Ø4.0, 16.0 pitch"], ["IC", "SOIC-8, centred, 1.75 tall"], ["Magnet", "Ø6 diametric, 6 × 1 or 6 × 2.5"], ["Magnet axis to IC", "0.25 max"], ["Air gap", "0.5 to 3 (1.5 used)"]],
+      "badge": ["ok", "Measured"], "badgeNote": "DollaTek / JYUDAUFU, 21 Oct 2026; magnet thickness CAL"
+    },
+    {
+      "title": "The mount",
+      "rows": [["Gap board to lips", "0.15 per side"], ["Lips", "1.6 wall, 5 legs, 1.0 above the PCB underside"], ["Screws", "M2.5 stainless up from below, washer and nut on top"], ["Floor", "2.0 (head counterbore)"], ["Post height", "magnet face − 1.5 − 1.75 − 1.6"]],
+      "note": "Every 0.1 of gap lets the board shift 0.1 off the magnet axis: keep it well under 0.25.",
+      "badge": ["cal", "To test"], "badgeNote": "the lip gap is set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Gap per side"],
+    "rows": [[1, "0.05"], [2, "0.10"], [3, "0.15"], [4, "0.25"]],
+    "checks": ["Does the board drop in square without forcing?", "Once in, can you feel it shift side to side?", "Screw one down: do the heads sit flush underneath, and does the clamp leave it flat?", "Does it come out again without prying the lips?"],
+    "print": "Print base down, no supports, in the enclosure's material. M2.5 × 8 stainless, washer and nut to test one."
+  }
+}

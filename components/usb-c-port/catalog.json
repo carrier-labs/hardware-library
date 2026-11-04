@@ -1,0 +1,43 @@
+{
+  "title": "USB-C port, flush in a wall",
+  "kind": "Connector",
+  "summary": "The board's USB-C socket sits in a close-fitting pocket in the wall, walled in on all sides with its face level with the outside, so the cable seats the way it does on a laptop. The board's end tucks into a shallow relief in the wall's inner face so the socket can reach the outside.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): (FireBeetle, C3, S3)",
+  "views": [
+    {
+      "id": "wall", "label": "In the wall",
+      "caption": "Turn it to the outside: the socket's face is flush, with a 0.15 gap all round. Inside, the board's end sits in a relief, leaving 1.5 of wall round the socket. Slide the socket out to see the pocket.",
+      "parts": [
+        {"name": "wall", "scad": "views/wall.scad", "role": "plastic", "label": "Wall"},
+        {"name": "socket", "scad": "views/socket.scad", "role": "metal", "label": "Socket", "moves": true},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Board", "moves": true}
+      ],
+      "move": {"label": "Slide the board out", "axis": "x", "from": 0, "to": 8}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four pockets, 0.10 to 0.30 per side, marked with 1 to 4 dots. Set up for the FireBeetle; the C3 Super Mini fits the same relief.",
+      "parts": [{"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"}]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The socket",
+      "rows": [["Shell", "8.94 × 3.26"], ["End radius", "1.2"], ["Depth", "7.35"], ["Overhang: FireBeetle / C3 / S3", "1.47 / 1.5 / 0.38"]],
+      "badge": ["cal", "To measure"], "badgeNote": "shell height and radius on each board"
+    },
+    {
+      "title": "The pocket",
+      "rows": [["Gap round the shell", "0.15 per side"], ["Thinnest wall round it", "1.0"], ["Outside lead-in", "0.3 chamfer"], ["Board relief", "board + 0.3 each side"]],
+      "note": "If a socket overhangs less than 1.0 (the S3's 0.38), its face sits back from the outside by the difference rather than leave a thin wall.",
+      "badge": ["cal", "To test"], "badgeNote": "the gap is set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Gap per side"],
+    "rows": [[1, "0.10"], [2, "0.15"], [3, "0.20"], [4, "0.30"]],
+    "checks": ["Slide the board's socket in from behind: light push, no rattle?", "Is the face flush with the outside?", "Plug a cable in from the front: does it seat fully and click?", "Does the gap round the socket look even?"],
+    "print": "Print base down, no supports, in the enclosure's material."
+  }
+}

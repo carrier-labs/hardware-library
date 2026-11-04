@@ -1,0 +1,14 @@
+# 3D / CAD binaries go through Git LFS. Run `git lfs install` once per machine
+# BEFORE the first CAD file is committed, or these land in normal history.
+*.step filter=lfs diff=lfs merge=lfs -text
+*.stp  filter=lfs diff=lfs merge=lfs -text
+*.STEP filter=lfs diff=lfs merge=lfs -text
+*.STP  filter=lfs diff=lfs merge=lfs -text
+*.stl  filter=lfs diff=lfs merge=lfs -text
+*.STL  filter=lfs diff=lfs merge=lfs -text
+*.3mf  filter=lfs diff=lfs merge=lfs -text
+*.obj  filter=lfs diff=lfs merge=lfs -text
+*.glb  filter=lfs diff=lfs merge=lfs -text
+
+# Generated WireViz / draw.io SVGs are text; keep them diffable.
+*.svg text

@@ -1,0 +1,43 @@
+# Build the fit pieces and the catalogue, check the meshes, publish to GitHub Pages.
+name: site
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+env:
+  OPENSCAD_SNAPSHOT: "2026.11.01"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: OpenSCAD snapshot (manifold backend) and admesh
+        run: |
+          sudo apt-get update -q && sudo apt-get install -y -q admesh
+          curl -sSL -o openscad.AppImage \
+            "https://files.openscad.org/snapshots/OpenSCAD-${OPENSCAD_SNAPSHOT}-x86_64.AppImage"
+          chmod +x openscad.AppImage
+          ./openscad.AppImage --appimage-extract > /dev/null
+          echo "$PWD/squashfs-root/usr/bin" >> "$GITHUB_PATH"
+          squashfs-root/usr/bin/openscad --version
+      - name: Fit pieces, mesh check, catalogue
+        run: make fit check site OPENSCAD=openscad
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out/site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

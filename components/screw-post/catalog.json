@@ -1,0 +1,37 @@
+{
+  "title": "Screw post, M2 / M2.5 / M3",
+  "kind": "Fixing",
+  "summary": "A round post off the floor for a board with mounting holes. Either the nut drops into a hex trap in the floor's underside and the screw goes in from the top, or the screw cuts its own thread in a pilot hole. Sizes M2, M2.5 and M3; the library says which screw length reaches.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): (FireBeetle, RJ45 breakout)",
+  "views": [
+    {
+      "id": "post", "label": "Nut trap and tap post",
+      "caption": "M2.5 on a 2.4 floor. Left: clearance hole with the nut trapped underneath. Right: blind pilot hole the screw threads itself into. Cut it open to see the trap.",
+      "parts": [
+        {"name": "post", "scad": "views/post.scad", "role": "plastic", "label": "Floor and posts"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Board"},
+        {"name": "screws", "scad": "views/screws.scad", "role": "metal", "label": "Screws and nut"}
+      ]
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "A row per size, M2 at the front. Dots 1–3: nut traps at three clearances. Dot 4: tap post.",
+      "parts": [{"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"}]
+    }
+  ],
+  "specs": [
+    {
+      "title": "Sizes",
+      "rows": [["M2: nut / head / post", "4.0 AF × 1.6 · Ø3.5 · Ø5"], ["M2.5", "5.0 AF × 2.0 · Ø4.4 · Ø6"], ["M3", "5.5 AF × 2.4 · Ø5.7 · Ø7"], ["Clearance hole", "screw + 0.4"], ["Tap hole M2 / M2.5 / M3", "1.6 / 2.1 / 2.5"]],
+      "note": "Floor at least nut height + 0.4 for a trap: 2.0 for M2, 2.4 for M2.5, 2.9 for M3.",
+      "badge": ["ok", "Nominal"], "badgeNote": "ISO 4032 nuts, ISO 7380 heads"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Kind", "Clearance"],
+    "rows": [[1, "nut trap", "+0.2"], [2, "nut trap", "+0.3"], [3, "nut trap", "+0.4"], [4, "tap post", "—"]],
+    "checks": ["Nut traps: does the nut push in and stay, sitting flush?", "Does the screw pull the nut up without it spinning?", "Tap post: does the screw cut a thread without splitting the post?", "Does it hold after taking it out and putting it back twice?"],
+    "print": "Print base down, no supports, in the enclosure's material."
+  }
+}

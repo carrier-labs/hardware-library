@@ -1,0 +1,47 @@
+{
+  "title": "ESP32-C3 Super Mini, USB-C through a wall",
+  "kind": "Board",
+  "summary": "The C3 Super Mini has no mounting holes. It sits on a taped pedestal in an outline pocket, with its USB-C socket flush in a pocket in the box wall. The antenna end of the pocket is whole and takes the plug's push; the long sides have gaps for the leads.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): room receiver",
+  "views": [
+    {
+      "id": "in", "label": "In the box",
+      "caption": "Drag the slider to pull the board back out of the wall. To fit it for real, tip it nose-down, put the socket into the wall and lay the antenna end down onto the tape. The socket's face is flush outside.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Holder and wall"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Board", "moves": true},
+        {"name": "socket", "scad": "views/board.scad", "defines": {"part": "socket"}, "role": "metal", "label": "USB-C socket", "moves": true}
+      ],
+      "move": {"label": "Pull the board back", "axis": "x", "from": 0, "to": 3}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four holders on one strip of 2.4 wall, marked with 1 to 4 dots: the tape squashed to 0.7, 0.85 and 1.0, and a tighter outline.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"},
+        {"name": "board4", "scad": "views/board.scad", "defines": {"n": 4}, "role": "board", "label": "Boards"},
+        {"name": "socket4", "scad": "views/board.scad", "defines": {"n": 4, "part": "socket"}, "role": "metal", "label": "Sockets"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The board",
+      "rows": [["Board", "22.52 × 18.0 × 1.0"], ["USB-C", "9.0 × 3.12, centred, 1.5 past the edge"], ["BOOT / RST", "8.8 from the USB edge, ±2.95"], ["Header rows", "15.24 apart"], ["Mounting holes", "none"]],
+      "note": "Sellers vary: 22.5 to 24 long, PCB 0.9 to 1.6. Pick a variant or pass length and pcb.",
+      "badge": ["cal", "To measure"], "badgeNote": "length, PCB and socket height on the board in hand"
+    },
+    {
+      "title": "The holder",
+      "rows": [["Pedestal", "14 × 10 × 2.5, 1.0 tape"], ["Outline gap", "0.4 per side"], ["Socket pocket", "0.15 per side, face flush"], ["Socket axis above the floor", "6.06"], ["Floor behind the wall", "about 24"]],
+      "badge": ["cal", "To test"], "badgeNote": "the tape's squashed thickness is set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Tape", "Outline gap"],
+    "rows": [[1, "0.7", "0.4"], [2, "0.85", "0.4"], [3, "1.0", "0.4"], [4, "1.0", "0.3"]],
+    "checks": ["Tip the board in: does the socket go into the wall and the board lay down on the tape?", "Is the socket centred top to bottom in its pocket, face flush outside?", "Does the board sit flat, not rocking on the pedestal?", "Plug a cable in and pull it out: does the board stay put?"],
+    "print": "Print base down, no supports, in the enclosure's material."
+  }
+}

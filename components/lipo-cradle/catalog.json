@@ -1,0 +1,45 @@
+{
+  "title": "LiPo pouch cell, low cradle",
+  "kind": "Battery",
+  "summary": "A low open wall round a LiPo pouch pack, with a gap for the lead. The pack drops in and the lid keeps it down, or a hook-and-loop strap goes over it under two bars beside the wall. Sized from the pouch code on the label (602530 = 6.0 × 25 × 30), with allowances for the protection board and for swelling.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): controller base (602530, 500 mAh)",
+  "views": [
+    {
+      "id": "in", "label": "How it goes in",
+      "caption": "Drag the slider to drop the 602530 pack in. The lead leaves through the gap in the end wall; the bars either side take a 10 wide strap over the pack.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Cradle"},
+        {"name": "pack", "scad": "views/pack.scad", "role": "component", "label": "602530 pack", "moves": true}
+      ],
+      "move": {"label": "Drop the pack in", "axis": "z", "from": 10, "to": 0}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four cradles for the 602530 on open floor pads, marked with 1 to 4 engraved dots: three clearances, and the 0.4 again with strap bars.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"},
+        {"name": "pack4", "scad": "views/pack.scad", "defines": {"n": 4}, "role": "component", "label": "Packs"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "Packs (T × W × L)",
+      "rows": [["602530, in use", "6.0 × 25 × 30"], ["403048", "4.0 × 30 × 48"], ["503035", "5.0 × 30 × 35"], ["603450", "6.0 × 34 × 50"], ["103450", "10 × 34 × 50"], ["PKCell 2000 mAh", "8 × 38 × 60"]],
+      "note": "Codes are the cell. A protection board folded at the tab end adds length: measure the pack. Any other code decodes from its six digits.",
+      "badge": ["cal", "To measure"], "badgeNote": "602530 read off the label, not measured"
+    },
+    {
+      "title": "The cradle",
+      "rows": [["Gap round the pack", "0.4"], ["Wall", "1.6 × 4 high"], ["Lead gap", "12"], ["Headroom for swelling", "thickness + 10 % + 0.5"], ["Strap bars", "optional, 2 × 2 over a 2 gap"]],
+      "badge": ["cal", "To test"], "badgeNote": "the clearance is set by the fit piece"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Gap", "Strap"],
+    "rows": [[1, "0.2", "—"], [2, "0.4", "—"], [3, "0.6", "—"], [4, "0.4", "10 wide"]],
+    "checks": ["Does the pack drop in without pressing on the pouch?", "How far does it slide about?", "Does the lead leave through the gap without a sharp bend?", "Strap: does it thread under both bars and hold the pack down?"],
+    "print": "Print base down, no supports, PETG."
+  }
+}
