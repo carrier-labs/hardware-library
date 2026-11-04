@@ -1,0 +1,17 @@
+part,supplier,sku,url,price,currency,date,notes
+dfr0654,The Pi Hut,,,,,2026-10,Bought here (2)
+dfr0654,DFRobot,DFR0654,https://www.dfrobot.com/product-2195.html,,,2026-11-04,Manufacturer. Also stocked by Farnell and Mouser under DFR0654
+esp32-c3-supermini,Amazon UK,B0DS23ML1L,https://www.amazon.co.uk/dp/B0DS23ML1L,,,2026-10,diymore 4-pack; 2 with headers 2 without
+esp32-s3-devkitc-yd,Amazon UK,,,,,2026-10,diymore listing; buy the no-header version
+rs485-jzk,Amazon UK,B09VGJCJKQ,https://www.amazon.co.uk/dp/B09VGJCJKQ,,,2026-10,JZK 5-pack
+rj45-breakout-pihut,The Pi Hut,106592,,,,2026-10,
+as5600-breakout,Amazon UK,B0BGPF3WT3,https://www.amazon.co.uk/dp/B0BGPF3WT3,,,2026-10,DollaTek x2
+as5600-breakout,Amazon UK,B0DJ77DS4J,https://www.amazon.co.uk/dp/B0DJ77DS4J,,,2026-10,JYUDAUFU x4 with Dupont leads
+magnet-6x1-diametric,Amazon UK,,,,,2026-10,10 discs + 10 rings 3 mm bore; listing not recorded
+lipo-602530-500,Amazon UK,B0F6356FG4,https://www.amazon.co.uk/dp/B0F6356FG4,,,2026-10,Plug arrived reversed against the FireBeetle socket
+lipo-pkcell-2000,The Pi Hut,105187,,,,2026-10,
+tactile-6x6-kit,Amazon UK,B07ZN11155,https://www.amazon.co.uk/dp/B07ZN11155,,,2026-10,BOJACK 200 pc
+ws2812b-100,Amazon UK,B07JBYZRWD,https://www.amazon.co.uk/dp/B07JBYZRWD,,,2026-10,BTF-LIGHTING
+wago-221-425,,,,,,2026-10,In hand; listing not recorded. Farnell/RS stock 221-415 and 221-425 under those numbers
+screws-m2-m5-button,Amazon UK,B0H2DK4KJ7,https://www.amazon.co.uk/dp/B0H2DK4KJ7,,,2026-10,1225 pc
+screws-m2.5-stainless,,,,,,2026-10,In hand; listing not recorded

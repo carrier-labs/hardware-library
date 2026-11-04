@@ -111,6 +111,10 @@ td.n { font: 13px var(--mono); font-variant-numeric: tabular-nums; }
 ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; }
 .foot { font-size: 13px; color: var(--muted); }
 .dl { display: flex; flex-wrap: wrap; gap: 8px; }
+.buy { display: grid; gap: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--line); font-size: 14px; }
+.buy:last-of-type { border-bottom: 0; }
+.buy .name { font-weight: 600; }
+.buy ul { padding-left: 16px; }
 .btn { font: 600 13px var(--font); padding: 7px 12px; border-radius: 8px; border: 1px solid var(--violet);
   color: var(--violet); background: transparent; }
 .btn:hover { background: var(--violet); color: #fff; }

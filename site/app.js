@@ -135,6 +135,17 @@
               ${s.note ? `<div class="foot">${esc(s.note)}</div>` : ""}
               ${s.badge ? `<div><span class="pill ${s.badge[0]}">${esc(s.badge[1])}</span> <span class="foot">${esc(s.badgeNote || "")}</span></div>` : ""}
             </div>`).join("")}
+          ${(part.parts || []).length ? `
+            <div class="block">
+              <h2>Where to buy</h2>
+              ${part.parts.map(b => `
+                <div class="buy">
+                  <div class="name">${esc(b.name)}${b.mpn ? ` <code>${esc(b.mpn)}</code>` : ""}</div>
+                  ${b.sources.length ? `<ul>${b.sources.map(s => `<li>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">` : ""}${esc(s.supplier || "unrecorded")}${s.sku ? ` <code>${esc(s.sku)}</code>` : ""}${s.url ? "</a>" : ""}${s.price ? ` · ${esc(s.price)} ${esc(s.currency || "")}` : ""}${s.notes ? ` <span class="foot">${esc(s.notes)}</span>` : ""}</li>`).join("")}</ul>` : `<div class="foot">No source recorded yet</div>`}
+                  ${b.notes ? `<div class="foot">${esc(b.notes)}</div>` : ""}
+                </div>`).join("")}
+              <div class="foot">From <code>parts/parts.csv</code> and <code>sources.csv</code>. Prices are as of the date in the sheet.</div>
+            </div>` : ""}
           ${fit ? `
             <div class="block">
               <h2>Fit piece</h2>

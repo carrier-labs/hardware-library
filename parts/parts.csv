@@ -1,0 +1,18 @@
+id,name,category,manufacturer,mpn,component,notes
+dfr0654,FireBeetle 2 ESP32-E,board,DFRobot,DFR0654,firebeetle-esp32e,"ESP32-WROOM-32E; LiPo charger; PH2.0 battery socket; USB-C. M2 holes"
+dfr0975,FireBeetle 2 ESP32-S3,board,DFRobot,DFR0975,firebeetle-esp32e,Same outline and holes as the ESP32-E. Not yet in hand
+dfr1075,FireBeetle 2 ESP32-C6,board,DFRobot,DFR1075,firebeetle-esp32e,Same outline and holes as the ESP32-E. Not yet in hand
+esp32-c3-supermini,ESP32-C3 Super Mini,board,,,esp32-c3-supermini,"Generic design, many sellers; 22.5 × 18, USB-C, no holes. Buy without headers for the pocket"
+esp32-s3-devkitc-yd,ESP32-S3 DevKitC-1 clone N16R8 (YD),board,YD,,esp32-s3-devkitc,"Clone of the Espressif DevKitC-1; two USB-C ports (native USB + UART). Buy without headers for the pocket"
+esp32-s3-devkitc-1,ESP32-S3-DevKitC-1-N16R8,board,Espressif,ESP32-S3-DevKitC-1-N16R8,esp32-s3-devkitc,"The genuine v1.1 board. Not yet in hand: the library's dimensions for it are from Espressif's drawing"
+rs485-jzk,TTL to RS485 auto-direction module (MAX485 + CD4069),module,JZK,,rs485-max485,"3.3 V capable; R0 jumper enables the 120 Ω termination. Sold in 5-packs. Looks like the XY-017 design: confirm"
+rj45-breakout-pihut,RJ45 breakout (horizontal jack),connector,The Pi Hut,,rj45-breakout,8-pin 2.54 header; two M2.5 holes
+as5600-breakout,AS5600 magnetic encoder breakout,sensor,,,as5600-mount,"Generic 23 × 23 board, I2C 0x36. DollaTek and JYUDAUFU packs both fit; JYUDAUFU includes Dupont leads"
+magnet-6x1-diametric,Disc magnet 6 × 1 N42 diametric,magnet,,,as5600-mount,Diametric magnetisation: the AS5600 needs it. Axial discs don't work
+lipo-602530-500,LiPo 1S 500 mAh 602530 with PH2.0 plug,battery,,,lipo-cradle,"6 × 25 × 30 from the cell code (label read 2026-10-30; the listing said 403048). Meter the plug polarity against the board before plugging in: packs arrive either way round"
+lipo-pkcell-2000,LiPo 1S 2000 mAh PKCell,battery,PKCell,,lipo-cradle,60 × 38 × 8 with JST plug. Meter the plug polarity before plugging in
+tactile-6x6-kit,6 × 6 tactile switch assortment (BOJACK 200 pc),switch,BOJACK,,tactile-6x6,"4-pin PCB tactile, stem heights 4.3 to 13 and a low-profile one. Every height is a named size in the library"
+ws2812b-100,WS2812B strip 100 LED/m IP30 white PCB (BTF-LIGHTING),led,BTF-LIGHTING,,neopixel-strip,10 mm pitch; cut to length. 10mm-100 in the library's strip table
+wago-221-425,WAGO 221-425 lever connector 5-way (Green Range),connector,WAGO,221-425,wago-221,"Same body as the 221-415; the library's 221-415 size fits it"
+screws-m2-m5-button,Machine screw assortment M2–M5 button head + nuts + washers (1225 pc),fixing,,,screw-post,"Carbon steel: magnetic, keep clear of the AS5600 magnets. M2 × 8/12/16/20 in the kit"
+screws-m2.5-stainless,M2.5 304 stainless socket/button head assortment 4–25 + nuts,fixing,,,screw-post,Non-magnetic: use near the AS5600

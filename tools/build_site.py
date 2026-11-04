@@ -35,6 +35,24 @@ def render(openscad, src, dst, defines, deps):
     subprocess.run(args + [src], check=True, stdout=subprocess.DEVNULL)
 
 
+def load_parts():
+    """parts/parts.csv and sources.csv → {component: [part + its sources]}."""
+    import csv
+    pdir = os.path.join(ROOT, "parts")
+    try:
+        with open(os.path.join(pdir, "parts.csv"), newline="") as f:
+            rows = list(csv.DictReader(f))
+        with open(os.path.join(pdir, "sources.csv"), newline="") as f:
+            sources = list(csv.DictReader(f))
+    except FileNotFoundError:
+        return {}
+    by_component = {}
+    for r in rows:
+        r["sources"] = [s for s in sources if s["part"] == r["id"]]
+        by_component.setdefault(r["component"], []).append(r)
+    return by_component
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--openscad", default="openscad")
@@ -45,6 +63,7 @@ def main():
     for f in glob.glob(os.path.join(ROOT, "site", "*")):
         shutil.copy2(f, OUT)
 
+    parts = load_parts()
     catalog = []
     for cat in sorted(glob.glob(os.path.join(ROOT, "components", "*", "catalog.json"))):
         pdir = os.path.dirname(cat)
@@ -64,6 +83,7 @@ def main():
                 render(a.openscad, os.path.join(pdir, p["scad"]), dst, p.get("defines", {}), deps)
                 p["file"] = f"models/{part}/{p['name']}.stl"
                 p.pop("scad"), p.pop("defines", None)
+        entry["parts"] = parts.get(part, [])
         entry["downloads"] = []
         for ext in ("3mf", "stl"):
             fit = os.path.join(ROOT, "out", f"{part}_fit.{ext}")
