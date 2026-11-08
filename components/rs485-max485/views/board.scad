@@ -1,5 +1,6 @@
 // The board as solids, for the catalogue (the Ghost is % so it never renders).
-// part = "board" | "chips" | "foam" (squashed, under the lid pads); n boards at the fit piece's pitch
+// part = "board" | "chips" | "foam" (squashed, under the lid pads); n boards at the fit piece's pitch.
+// tape = 0 seats it as on a carrier (no tape under the board).
 include <../rs485-max485.scad>
 
 variant = "jzk";
@@ -7,9 +8,10 @@ part    = "board";
 n       = 1;
 pitch   = 30;
 squeezes = [0.5, 1.0, 1.5, 2.0];   // as fit.scad (n > 1)
+tape    = bpTape;
 
 v   = rs485(variant);
-top = rs485Top(variant);
+top = rs485Top(variant, bpPedestal, tape);
 module one(sq)
 {
   if (part == "board") difference()

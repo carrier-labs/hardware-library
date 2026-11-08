@@ -1,7 +1,7 @@
 {
   "title": "RS485 module (MAX485), on the floor",
   "kind": "Board",
-  "summary": "The JZK TTL-to-RS485 module has no mounting holes. It sits on a taped pedestal in an outline pocket with lead gaps at the bus end, the logic end and both long sides. In a closed box two lid pads press foam onto it, one inboard of each end's pin row.",
+  "summary": "The JZK TTL-to-RS485 module has no mounting holes. On the floor it sits on a taped pedestal in an outline pocket with lead gaps at the bus end, the logic end and both long sides, and two lid pads press foam onto it. On a 5 × 3 carrier it is hooked instead of taped: two snap hooks over each long edge, so it clicks in and lifts out.",
   "status": "measured",
   "firstUsed": "Controller project (2026): room receiver and rack-ends",
   "views": [
@@ -14,6 +14,16 @@
         {"name": "chips", "scad": "views/board.scad", "defines": {"part": "chips"}, "role": "component", "label": "Chips", "moves": true}
       ],
       "move": {"label": "Lift the board out", "axis": "z", "from": 0, "to": 10}
+    },
+    {
+      "id": "carrier", "label": "On a carrier",
+      "caption": "The module on a 5 × 3 carrier (50 × 30): the same 2.5 pedestal with no tape, the end walls with their 10 wide lead gaps, no side walls, and two snap hooks over each long edge, each on a tongue of plate cut free by a U-slot. Drag the slider to push the board down: its edges ride the 45° lead-ins, the arms flex out and the hooks snap back over its top, 4.1 above the plate. To take it out, lift one end of the board: the two hooks there cam open on their 45° undersides and the board pivots out. Cut open from the side to see the hooks' profiles.",
+      "parts": [
+        {"name": "carrier", "scad": "views/carrier.scad", "role": "plastic", "label": "Carrier 5 × 3 with hooks"},
+        {"name": "boardCarrier", "scad": "views/board.scad", "defines": {"tape": 0}, "role": "board", "label": "Board", "moves": true},
+        {"name": "chipsCarrier", "scad": "views/board.scad", "defines": {"tape": 0, "part": "chips"}, "role": "component", "label": "Chips", "moves": true}
+      ],
+      "move": {"label": "Push the board in", "axis": "z", "from": 10, "to": 0}
     },
     {
       "id": "lid", "label": "Lid hold-down",
@@ -47,6 +57,12 @@
       "title": "The holder",
       "rows": [["Pedestal", "26 × 9 × 2.5, 1.0 tape"], ["Outline gap", "0.4 per side"], ["Lead gaps", "10 at the ends, 6 in the sides"], ["Lid pads", "6 × 12.5, 6 inboard of each end"], ["Floor", "46.2 × 18.7"]],
       "badge": ["cal", "To test"], "badgeNote": "the foam squeeze is set by the fit piece"
+    },
+    {
+      "title": "The carrier",
+      "rows": [["Size", "5 × 3 (50 × 30), solid plate, M2.5 at the four corners"], ["Fixing", "the carrier standard: self-tap into Ø6 × 4 floor bosses (top 5.6 above the floor) or nut traps"], ["Board top above the plate", "4.1: 2.5 pedestal, no tape, 1.6 PCB"], ["Held by", "four snap hooks, two per long edge at X = ±10, reach 0.7, 0.3 to the edge; the end walls stop it along the board"], ["Tallest plastic", "6.35, the hooks; 11.15 with release tabs"], ["Release", "lift one end of the board: the hooks there cam open. tab = true puts a lip on the +Y hooks for a fingernail"]],
+      "note": "Why 5 × 3: the end walls need 46.2 along the board, and each hook with its relief slot needs 6.9 past the board's edge, 29.3 across. A 4 × 3 would cut the end walls; a 5 × 2 has no room for the slots. Every variant in the table comes out 5 × 3.",
+      "badge": ["cal", "To test"], "badgeNote": "hook reach and clearance are set by snap-hook's fit piece"
     }
   ],
   "fit": {

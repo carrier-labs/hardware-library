@@ -11,14 +11,27 @@
 //   rs485Holder()    the plastic: pedestal and outline pocket, add to the floor
 //   rs485LidPads()   blocks under the lid that press foam onto the board
 //
+// On a carrier (carrier.scad), the board is hooked, not taped: the same
+// pedestal with no tape, the end walls with their lead gaps, no side walls,
+// and two snap hooks (snap-hook.scad) over each long edge.
+//   rs485Carrier()       the carrier plate with the holder on it, as plastic
+//   rs485CarrierGhost()  the board seated on it, and the screws, for previews
+//   rs485CarrierSize()   [nx, ny] grid units; rs485CarrierHeight() the top
+//                        of the hooks, which a lid must clear
+//
 // Frame: origin on the floor top under the centre of the board. X along the
 // board, bus end (A/B) at -X, logic end (VCC/TXD/RXD/GND) at +X. Z up. Units: mm.
+// The carrier modules use the carrier frame: the same, with the plate's top
+// at Z = 0 (the plate is Z = -1.6 .. 0), the plate's centre under the board's.
 //
 // Sizes: pick a row of rs485Variants by name.
 //-----------------------------------------------------------------------
 
-//-- included, not used, so its default values (bpTape, bpClearance...) are in scope here
+//-- included, not used, so their default values (bpTape, bpClearance, crPlate, shReach...) are in
+//-- scope here. None of them draws anything
 include <../board-pocket/board-pocket.scad>
+include <../carrier/carrier.scad>
+include <../snap-hook/snap-hook.scad>
 
 //-- [name, length, width, pcb, tallest SMD, bus pins, logic pins, screw terminal [l, w, h] or undef]
 rs485Variants = [
@@ -45,6 +58,9 @@ rs485EndGap   = 10;       // lead gap at the ends: the 4-pin row is 7.62 across,
 rs485SideGap  = 6;
 rs485PadInset = 6;        // lid pads: this far inboard of each end
 rs485PadLen   = 6;
+//-- Carrier: the board hooked down, no tape
+rs485HookX    = 10;       // the two hook pairs sit this far either side of the board's centre along X:
+                          // clear of the chips, and their relief slots stop 1 short of the corner hole cells
 
 function rs485(name = rs485Variant) = let (i = search([name], rs485Variants)[0])
   assert(i != [] && i != undef, str("unknown RS485 variant ", name)) rs485Variants[i];
@@ -88,4 +104,71 @@ module rs485LidPads(lidZ, variant = rs485Variant, foam = bpFoam, squeeze = bpSqu
   busIn = is_undef(v[7]) ? rs485PadInset : 3 + v[7][0] + 1;
   for (x = [-v[1]/2 + busIn + rs485PadLen/2, v[1]/2 - rs485PadInset - rs485PadLen/2])
     boardLidPad([rs485PadLen, v[2] - 3], [x, 0], top, lidZ, foam, squeeze);
+}
+
+//-----------------------------------------------------------------------
+// On a carrier. Carrier frame: origin at the plate's centre, Z = 0 on the
+// plate's top, the board along X as above. The board sits on the pedestal
+// with no tape and the end walls stop it along X; two snap hooks over each
+// long edge hold it down and centre it across. Push the board down to fit
+// it; lift one end to take it out (the hooks' 45 deg undersides cam open).
+//-----------------------------------------------------------------------
+
+//-- the board's top above the plate: pedestal + PCB, no tape (4.1 on the JZK)
+function rs485CarrierTop(variant = rs485Variant, pedestal = bpPedestal) = pedestal + rs485(variant)[3];
+
+//-- the carrier in grid units, the smallest that takes the holder: along X the pocket's end
+//-- walls, across Y the hooks and their relief slots (5 x 3 for every variant in the table)
+function rs485CarrierSize(variant = rs485Variant, clearance = bpClearance, wall = bpWall, pedestal = bpPedestal,
+                          reach = shReach, hookClear = shClearance, thick = shThick, relief = shRelief) =
+  let (v = rs485(variant), top = rs485CarrierTop(variant, pedestal),
+       L = v[1] + 2*(clearance + wall),
+       W = v[2] + 2*snapHookClear(top, reach, hookClear, thick, relief))
+  [ceil(L/crGrid - 1e-6), ceil(W/crGrid - 1e-6)];
+
+//-- the tallest plastic above the plate: the hooks' tops (6.35 on the JZK, 11.15 with tabs)
+function rs485CarrierHeight(variant = rs485Variant, tab = false, pedestal = bpPedestal,
+                            reach = shReach, hookClear = shClearance) =
+  snapHookHeight(rs485CarrierTop(variant, pedestal), reach, hookClear, tab);
+
+//-- The carrier with its holder, as plastic. tab: release tabs on the +Y pair of hooks.
+//-- hookClear is the hook arm to the board's edge (snap-hook's clearance); clearance is the
+//-- end walls to the board's ends (board-pocket's)
+module rs485Carrier(variant = rs485Variant, tab = false, hookX = rs485HookX, reach = shReach,
+                    hookClear = shClearance, thick = shThick, width = shWidth, relief = shRelief,
+                    clearance = bpClearance, pedestal = bpPedestal, rise = bpRise)
+{
+  v   = rs485(variant);
+  top = rs485CarrierTop(variant, pedestal);
+  s   = rs485CarrierSize(variant, clearance, bpWall, pedestal, reach, hookClear, thick, relief);
+  nx  = s[0]; ny = s[1];
+  //-- the relief slots must stay out of the corner holes' grid cells
+  cellX = crCoord(nx, nx - 1) - crGrid/2;
+  assert(hookX + width/2 + shSlot <= cellX,
+         str("hooks at ", hookX, " run into the corner hole cells: keep hookX + width/2 + ", shSlot, " under ", cellX));
+  assert(hookX - width/2 - shSlot >= 0, "the two hook pairs overlap");
+  difference()
+  {
+    union()
+    {
+      carrierPlate(nx, ny, open = false);              // solid: the hooks' tongues need the plate
+      //-- pedestal and end walls with lead gaps, no tape; no side walls, the hooks stand there
+      rs485Holder(variant, ["gap", "gap", "open", "open"], clearance, pedestal, 0, rise);
+      for (x = [-hookX, hookX])
+        translate([x, 0, 0]) rotate([0, 0, 90])
+          snapHookPair(v[2], top, reach, hookClear, thick, width, [false, tab], relief);
+    }
+    for (x = [-hookX, hookX])
+      translate([x, 0, 0]) rotate([0, 0, 90])
+        snapHookPairFloorCut(v[2], top, reach, hookClear, thick, width, crPlate, relief);
+  }
+}
+
+//-- the board seated on the carrier, and the carrier's screws, for previews
+module rs485CarrierGhost(variant = rs485Variant, how = crHow, pedestal = bpPedestal, clearance = bpClearance,
+                         reach = shReach, hookClear = shClearance, thick = shThick, relief = shRelief)
+{
+  s = rs485CarrierSize(variant, clearance, bpWall, pedestal, reach, hookClear, thick, relief);
+  rs485Ghost(variant, pedestal, 0);
+  carrierScrewGhost(s[0], s[1], how);
 }
