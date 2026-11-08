@@ -12,6 +12,13 @@
 //   wagoClip()    the plastic: two arms with hooks and four corner stops
 //   wagoBody()    the connector as a plain solid (views, collision checks)
 //
+// On a carrier (carrier.scad's 10 mm M2.5 grid), in the carrier frame, which
+// is this frame with Z = 0 on the plate's top:
+//   wagoCarrier()        the plate with the clip on it, the plate opened under the body
+//   wagoCarrierGhost()   the WAGO seated, and the screws, for previews
+//   wagoCarrierSize()    [nx, ny]: the smallest plate whose screw heads clear the clip
+//   wagoCarrierEntryX()  X of the wire-entry face, for the room the wires need
+//
 // Frame: origin on the floor top, at the centre of the WAGO's footprint.
 // +X from the wire-entry face to the back (entries face -X), Y along the row
 // of levers (the short ends at +-Y), Z up. Units: mm.
@@ -22,6 +29,8 @@
 //
 // Use with `use <.../components/wago-221/wago-221.scad>`.
 //-----------------------------------------------------------------------
+
+use <../carrier/carrier.scad>   // the plate, its grid and hole list; it draws nothing
 
 //-- [name, length (Y), depth (X), height levers closed, ports, strip length, max mm²]
 //-- WAGO data sheets unless noted; see the README for each source
@@ -108,4 +117,91 @@ module wagoClip(name = wagoDefault, clearance = wagoClearance, hook = wagoHook)
         sideLeg = sx < 0 ? wagoEntryStub : leg;
         translate([0, -sideLeg, 0]) cube([wagoStopWall, sideLeg + wagoStopWall, wagoStopH + 0.01]);
       }
+}
+
+//-----------------------------------------------------------------------
+// On a carrier
+//
+// The clip on a carrier plate (carrier.scad). The plate's screws go in from
+// above, heads on the plate's top, so the clip's outline (body, arms and
+// stops) must stay clear of every head: wagoCarrierSize() tries every plate
+// up to wagoCarrierMax units a side and takes the smallest that fits the
+// clip with each hole at least a head's radius + wagoCarrierKeep outside
+// the clip's outline. Least area wins, then the narrower across X. The
+// carrier is screwed down first; the WAGO clips in after.
+//
+// The plate is opened under the WAGO's body (a pocket inset wagoCarrierRim
+// from its outline, and only where carrierOpening() would open the plate),
+// so the arms and stops always stand on solid plate. Pass open = false for
+// a solid plate.
+//-----------------------------------------------------------------------
+
+wagoCarrierScrew   = "M2.5";   // carrier's crScrew: its head sets the keep-out round each hole
+wagoCarrierKeep    = 0.5;      // clip to the edge of a screw head, at least: room for the driver
+wagoCarrierRim     = 3;        // solid plate left under the body's edges when the plate is open
+wagoCarrierOpenMin = 8;        // no pocket narrower than this (carrier's crOpenMin)
+wagoCarrierMax     = 8;        // largest plate side tried, in grid units
+
+//-- the clip's outline: [across X, along Y], the stops' and arms' outer faces
+function wagoClipOutline(name = wagoDefault, clearance = wagoClearance) =
+  [wagoDepth(name) + 2*(clearance + wagoStopWall),
+   wagoLength(name) + 2*(clearance + max(wagoArmThick, wagoStopWall))];
+
+//-- does an nx x ny plate take the clip: the outline fits on it, and every hole's head
+//-- (and the driver on it) is clear of the outline
+function wagoCarrierFits(nx, ny, name = wagoDefault, clearance = wagoClearance) =
+  let (s = crSize(nx, ny), o = wagoClipOutline(name, clearance),
+       keep = screwHeadDia(wagoCarrierScrew)/2 + wagoCarrierKeep)
+  o[0] <= s[0] + 0.01 && o[1] <= s[1] + 0.01 &&
+  [for (p = crHoles(nx, ny)) if (abs(p[0]) < o[0]/2 + keep && abs(p[1]) < o[1]/2 + keep) p] == [];
+
+//-- the smallest carrier for the clip: least area, then the narrower across X
+function wagoCarrierSize(name = wagoDefault, clearance = wagoClearance) =
+  let (fits = [for (ny = [1 : wagoCarrierMax], nx = [1 : wagoCarrierMax])
+                 if (wagoCarrierFits(nx, ny, name, clearance)) [nx*ny, nx]])
+  assert(len(fits) > 0, str("no carrier up to ", wagoCarrierMax, " x ", wagoCarrierMax, " takes a ", name))
+  let (area = min([for (f = fits) f[0]]), nx = min([for (f = fits) if (f[0] == area) f[1]]))
+  [nx, area/nx];
+
+//-- X of the wire-entry face in the carrier frame: the wires need the strip length and
+//-- their bend in front of it (allow 15 for 4 mm², 20 for 6 mm²), past the plate's edge
+function wagoCarrierEntryX(name = wagoDefault) = -wagoDepth(name)/2;
+
+//-- the plate with the clip on it. size: [nx, ny] to use a bigger plate than the smallest
+//-- (it must still take the clip); open: pocket the plate under the body
+module wagoCarrier(name = wagoDefault, clearance = wagoClearance, hook = wagoHook, open = true, size = undef)
+{
+  s = is_undef(size) ? wagoCarrierSize(name, clearance) : size;
+  assert(wagoCarrierFits(s[0], s[1], name, clearance),
+         str("a ", s[0], " x ", s[1], " carrier doesn't take a ", name, ": its screw heads meet the clip, or it is too small"));
+  difference()
+  {
+    union()
+    {
+      carrierPlate(s[0], s[1], open = false);
+      wagoClip(name, clearance, hook);
+    }
+    if (open) wagoCarrierPocket(name, s);
+  }
+}
+
+//-- what wagoCarrier(open = true) cuts away: the plate under the body, inset rim from
+//-- its outline, and never more than carrierOpening() would open
+module wagoCarrierPocket(name = wagoDefault, size, rim = wagoCarrierRim)
+{
+  w = wagoDepth(name) - 2*rim; l = wagoLength(name) - 2*rim;
+  if (w >= wagoCarrierOpenMin && l >= wagoCarrierOpenMin)
+    intersection()
+    {
+      carrierOpening(size[0], size[1]);
+      translate([-w/2, -l/2, -5]) cube([w, l, 10]);
+    }
+}
+
+//-- the WAGO seated on its carrier, and the carrier's screws, for previews
+module wagoCarrierGhost(name = wagoDefault, clearance = wagoClearance, how = "tap")
+{
+  s = wagoCarrierSize(name, clearance);
+  wagoGhost(name);
+  carrierScrewGhost(s[0], s[1], how);
 }

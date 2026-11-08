@@ -15,6 +15,16 @@
       "move": {"label": "Push the WAGO in", "axis": "z", "from": 12, "to": 0}
     },
     {
+      "id": "carrier", "label": "On a carrier",
+      "caption": "The 221-415's clip on a 3 × 5 carrier (30 × 50), screwed down at its corners, the plate opened under the body. Drag the slider to push the WAGO down: the arms spread over the lead-ins and the hooks snap over its top at each end. The screw heads sit beside the corner stops, clear of the body, so the carrier goes down first and the WAGO clips in after. To take it out, prise one hook back with a fingernail and lift; the carrier stays screwed down.",
+      "parts": [
+        {"name": "carrier", "scad": "views/carrier.scad", "role": "plastic", "label": "Carrier 3 × 5 with clip"},
+        {"name": "screws", "scad": "views/screws.scad", "role": "metal", "label": "M2.5 × 6 screws"},
+        {"name": "wagoCarrier", "scad": "views/wago.scad", "role": "component", "label": "WAGO 221-415", "moves": true}
+      ],
+      "move": {"label": "Push the WAGO in", "axis": "z", "from": 12, "to": 0}
+    },
+    {
       "id": "fit", "label": "Fit piece",
       "caption": "Four clips for a 221-415 on an open floor, marked with 1 to 4 engraved dots: three hook depths, and a tighter fit round the body.",
       "parts": [
@@ -34,6 +44,12 @@
       "title": "The clip",
       "rows": [["Hook over the top edge", "0.7"], ["Gap round the body", "0.4"], ["Hook above the top", "0.2"], ["Arms", "1.6 × 8, free from the floor"], ["Clip height, 221-415", "10.0"]],
       "badge": ["cal", "To test"], "badgeNote": "the hook depth is set by the fit piece"
+    },
+    {
+      "title": "The carrier",
+      "rows": [["221-415 / 425", "3 × 5 (30 × 50), M2.5 at the four corners"], ["Why not 3 × 4", "its screws at (±10, ±15) would sit under the body's corners, heads on the plate"], ["Fixing", "carrier's \"tap\" bosses (plate top 5.6 above the floor) or \"nut\""], ["WAGO top above the plate", "8.4; the clip 10.0; levers open to about 20"], ["Held by", "the clip: a hook over each end, corner stops; the plate opened 12.6 × 24 under the body"], ["Release", "prise a hook back with a fingernail and lift; the carrier stays down"], ["Other sizes", "412: 4 × 2; 413: 3 × 4; 612: 5 × 2; 613: 3 × 5; 615: 5 × 5"]],
+      "note": "wagoCarrierSize(name) picks the smallest plate whose screw heads stay 0.5 clear of the clip's outline. The carrier is screwed down first, then the WAGO clips in.",
+      "badge": ["ok", "Design"], "badgeNote": "2026-11-08"
     }
   ],
   "fit": {
