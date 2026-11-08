@@ -1,0 +1,54 @@
+{
+  "title": "Snap hook, over a board's edge",
+  "kind": "Fixing",
+  "summary": "A cantilever arm that hooks over the edge of a PCB, so a board with no holes clicks down onto a carrier. Its 45° lead-in opens it as the board goes in; its 45° underside prints without supports and centres the board. The arm stands on a tongue of floor cut free by a U-slot, so a short arm still has spring in PETG. Any board: set its top height, reach and clearance.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): carriers for the RS485 module",
+  "views": [
+    {
+      "id": "in", "label": "How it goes in",
+      "caption": "A JZK RS485 module on a 3 × 5 carrier plate: pedestal strip, end stops, a hook on each long edge (the right one with a release tab) and the flex-relief slots round their feet. Drag the slider to push the board down: the arms open over the lead-ins and the hooks snap back over its top. Section cuts in from the side, through both hooks.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Hooks and carrier plate"},
+        {"name": "board", "scad": "views/board.scad", "role": "board", "label": "Board", "moves": true},
+        {"name": "chips", "scad": "views/board.scad", "defines": {"part": "chips"}, "role": "component", "label": "Chips", "moves": true}
+      ],
+      "move": {"label": "Push the board in", "axis": "z", "from": 10, "to": 0}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four stations for the JZK module on one 1.6 plate, marked with 1 to 4 engraved dots: three hook reaches at 0.3 clearance, and 0.7 at a tighter 0.2. The floor is open between the pedestal and the hooks.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"},
+        {"name": "board4", "scad": "views/board.scad", "defines": {"n": 4}, "role": "board", "label": "Boards"},
+        {"name": "chips4", "scad": "views/board.scad", "defines": {"n": 4, "part": "chips"}, "role": "component", "label": "Chips"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The hook",
+      "rows": [["Reach over the board", "0.7"], ["Arm to the board's edge", "0.3"], ["Hook above the board's top edge", "0.15"], ["Arm", "1.6 × 6, PETG"], ["Lead-in", "45°, 1.4 high"], ["Underside", "45°: prints without supports"], ["Stands past the board's edge", "6.9 with the relief, 1.9 without"]],
+      "note": "The underside slope also centres the board: it can shift 0.15 toward a hook before the slope lifts it. Pull the board, or lever an arm back with a fingernail (tab = true adds a lip), to release.",
+      "badge": ["cal", "To test"], "badgeNote": "reach and clearance are set by the fit piece"
+    },
+    {
+      "title": "The flex relief",
+      "rows": [["Tongue behind the arm", "4"], ["Slot", "1.0 wide, both sides and in front"], ["Strain, 4.1 board top, 1.0 opening", "3.0 % (13 % without)"], ["Force to hold a hook open", "about 36 N"], ["Arm that needs no relief", "8 and taller"]],
+      "note": "Estimates: cantilever at 2 GPa. The fit piece decides. If a station is hard to press in, thin the arm to 1.2 (less than half the force).",
+      "badge": ["cal", "Estimate"], "badgeNote": "snapHookStrain() and snapHookForce() give them for any arm"
+    },
+    {
+      "title": "The board it's tested on",
+      "rows": [["JZK TTL-RS485 module", "43 × 15.5 × 1.6, no holes"], ["Pedestal strip", "6 × 26 × 2.5"], ["Board top above the floor", "4.1"], ["End stops", "0.4 from each end"]],
+      "note": "Any board works: pass its top height. The pins are at the module's ends, so its long edges are free for the hooks.",
+      "badge": ["ok", "Measured"], "badgeNote": "outline 21 Oct 2026; PCB 1.6 to confirm"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Reach", "Gap"],
+    "rows": [[1, "0.5", "0.3"], [2, "0.7", "0.3"], [3, "0.9", "0.3"], [4, "0.7", "0.2"]],
+    "checks": ["Push the board down: do both hooks click over, with a thumb's push?", "Does it sit flat on the pedestal without rattling, up or sideways?", "Lift one end and tug it sideways: does it stay put?", "Pull it out: does it come without a hook cracking or staying bent?"],
+    "print": "Print base down, no supports, PETG (PLA will crack at the longer reaches)."
+  }
+}

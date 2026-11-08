@@ -1,0 +1,48 @@
+{
+  "title": "Bridge, snap-in bar over a soft part",
+  "kind": "Holder",
+  "summary": "For a part that can't be hooked: a LiPo pouch, anything soft or without an edge. Two posts stand on the carrier either side of it, and a separate printed bar snaps down into them with a pad of foam stuck under it. The bar's ends sit on the post tops, so the squeeze is set by the posts; a barb on each foot catches under a lip. Press a barb in with a thumbnail to release.",
+  "status": "measured",
+  "firstUsed": "Controller project (2026): controller base, over the 602530 pack",
+  "views": [
+    {
+      "id": "on", "label": "How it goes on",
+      "caption": "A 602530 pack in its cradle on a 4 × 5 carrier, posts 36.5 apart. Drag the slider to snap the bar down: each foot drops into its slot, the barb rides over the lip and catches under it, and the bar's ends land on the post tops, 8 above the carrier. A 3 mm foam pad under the bar (not shown) is squashed by 1 onto the pack. Cut open from the side to see a foot in its slot.",
+      "parts": [
+        {"name": "station", "scad": "views/station.scad", "role": "plastic", "label": "Carrier, cradle and posts"},
+        {"name": "pack", "scad": "views/pack.scad", "role": "component", "label": "602530 pack"},
+        {"name": "bar", "scad": "views/bar.scad", "role": "plastic", "label": "Bar (separate print)", "moves": true}
+      ],
+      "move": {"label": "Snap the bar on", "axis": "z", "from": 14, "to": 0}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "Four pairs of posts on one strip, marked with 1 to 4 engraved dots, at foot clearances 0.1 to 0.4. Each pair's bar is printed beside it on its back, feet up, joined to the strip by a 0.4 × 0.8 sprue: twist it off, snap it in, press a barb to take it out.",
+      "parts": [{"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"}]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The bar",
+      "rows": [["Section", "8 wide × 2 thick"], ["Length", "span + 5.5: flush with the posts' outer faces"], ["Feet", "1.2 thick, full width, h − 1 long"], ["Barb", "0.5 under the lip, 45° lead-in"], ["Foam under it", "3, squashed by 1"], ["Height over the carrier", "h = part top + 2; bar top at h + 2"]],
+      "note": "One print per bridge, on its back: top face down, feet up, no supports. The catch face is a 0.7 overhang, which a 0.4 nozzle prints.",
+      "badge": ["ok", "Design values"], "badgeNote": "from board-pocket's lid pads"
+    },
+    {
+      "title": "The posts",
+      "rows": [["Footprint", "5.5 along the span × 11.6 across"], ["Walls", "1.6"], ["Slot", "mouth 1.6 wide for 1.5 deep, then 2.3 wide so the foot can flex"], ["Lip", "from 2.7 above the carrier to h; open below, where the barb shows"], ["Shortest h", "6: the feet need 5 to flex"]],
+      "badge": ["cal", "To test"], "badgeNote": "barb reach and foot clearance are set by the fit piece"
+    },
+    {
+      "title": "Sizes",
+      "rows": [["Span", "any: brSpanFor(width of the part and its holder)"], ["Bar width", "any from 4; 8 default"], ["Height", "brBarZ(part top), 6 or more"], ["602530 in its cradle", "span 36.5, h 8"], ["603450 in its cradle", "span 45.5, h 8"], ["PKCell 2000 mAh in its cradle", "span 49.5, h 10"]],
+      "note": "Nothing in the bridge knows what is under it: size the span from the holder's outside and the height from the part's top."
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Foot clearance"],
+    "rows": [[1, "0.1"], [2, "0.2"], [3, "0.3"], [4, "0.4"]],
+    "checks": ["Twist the bar off its sprue; does it come away clean?", "Push it down: does it click at both ends, without forcing?", "Does it sit on the post tops without rocking or sliding along the span?", "Lift it by the middle: do both barbs hold?", "Press one barb in with a thumbnail: does that end lift? Squeeze both: does the bar come off whole?", "Five times in and out: has a foot whitened or cracked?"],
+    "print": "Print base down, no supports, PETG."
+  }
+}

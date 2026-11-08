@@ -1,0 +1,59 @@
+{
+  "title": "Carrier, 10 mm M2.5 grid",
+  "kind": "System",
+  "summary": "Every bought part sits on a small printed carrier: a 1.6 plate of whole 10 mm grid units with M2.5 holes at its corners. A box floor offers the grid points a design uses, as self-tap bosses or nut traps; a 4 thick bench plate is the whole grid, for prototyping. A carrier never knows which it is on.",
+  "status": "measured",
+  "views": [
+    {
+      "id": "bench", "label": "On the bench",
+      "caption": "Drag the slider to set a 3 × 4 carrier down on a 6 × 6 bench plate: its four holes land on grid points, and M2.5 × 6 screws tap straight into the bench. The middle of the plate is opened to a frame; each hole keeps its grid cell solid.",
+      "parts": [
+        {"name": "bench", "scad": "views/bench.scad", "role": "plastic", "label": "Bench plate 6 × 6"},
+        {"name": "carrier", "scad": "views/carrier.scad", "role": "plastic", "label": "Carrier 3 × 4", "moves": true},
+        {"name": "screws", "scad": "views/screws.scad", "role": "metal", "label": "M2.5 × 6 screws", "moves": true}
+      ],
+      "move": {"label": "Set the carrier down", "axis": "z", "from": 15, "to": 0}
+    },
+    {
+      "id": "floor", "label": "In a box",
+      "caption": "A piece of box floor with two 3 × 2 carriers. Left, the default: the carrier stands on Ø6 × 4 bosses and the screws tap into them, leaving 4 mm under it for wires. Right, the nut option: the carrier lies flat and the nuts sit in traps under the 2.4 floor. Cut it open to see the pilot holes and the traps.",
+      "parts": [
+        {"name": "floor", "scad": "views/floor.scad", "role": "plastic", "label": "Floor, bosses and traps"},
+        {"name": "seated", "scad": "views/seated.scad", "role": "plastic", "label": "Carriers 3 × 2", "moves": true},
+        {"name": "screwsFloor", "scad": "views/screws.scad", "defines": {"scene": "floor"}, "role": "metal", "label": "Screws and nuts", "moves": true}
+      ],
+      "move": {"label": "Set the carriers down", "axis": "z", "from": 12, "to": 0}
+    },
+    {
+      "id": "fit", "label": "Fit piece",
+      "caption": "A 5 × 2 piece of bench plate with tap holes 1.9, 2.0, 2.1 and 2.2 at 1 to 4 dots, and a Ø2.9 clearance hole at the end. Drive an M2.5 × 6 into each: the right hole takes a thread firmly without splitting.",
+      "parts": [
+        {"name": "fit", "scad": "fit.scad", "role": "plastic", "label": "Fit piece"}
+      ]
+    }
+  ],
+  "specs": [
+    {
+      "title": "The standard",
+      "rows": [["Grid", "10"], ["Screw", "M2.5; M2.5 × 6 the standard length"], ["Carrier", "nx × ny whole units, 1.6 thick"], ["Holes", "Ø2.9 on the grid points inset 5: the corners, and a mid pair on a side of 6+ units"], ["Bench plate", "4 thick, Ø2.1 tap hole on every grid point, 0.8 chamfer"]],
+      "note": "Hole sizes are screw-post's M2.5 row: clearance 2.9, tap 2.1, boss Ø6.",
+      "badge": ["ok", "Decided"], "badgeNote": "2026-11-08"
+    },
+    {
+      "title": "Fixings",
+      "rows": [["\"tap\", the default", "Ø6 × 4 boss on the floor, Ø2.1 pilot hole; carrier top 5.6 above the floor"], ["Pilot hole into the floor", "0.9 for an M2.5 × 6 (the boss is shorter than the screw); floor at least 1.5"], ["\"nut\"", "carrier flat, Ø2.9 through, M2.5 nut trapped under a 2.4+ floor; top at 1.6"], ["\"bench\"", "flat on the bench, screws tap into it; top at 1.6"], ["Head", "Ø4.4 × 1.4 button, on the carrier's top"]],
+      "badge": ["cal", "To test"], "badgeNote": "the tap hole is set by the fit piece"
+    },
+    {
+      "title": "The plate",
+      "rows": [["Open plate", "frame 3 wide, each hole's 10 × 10 cell solid, a 2 rib at each mid hole pair"], ["Stays solid", "when an opening would be under 8 wide: 2 × 2, 4 × 1 …"], ["Wrappers", "open = false when the holder needs the area"], ["Smallest", "1 × 1, one hole"]],
+      "badge": ["ok", "Design"], "badgeNote": "PETG, as the enclosures"
+    }
+  ],
+  "fit": {
+    "columns": ["Dots", "Tap hole"],
+    "rows": [[1, "1.9"], [2, "2.0"], [3, "2.1"], [4, "2.2"]],
+    "checks": ["Does an M2.5 × 6 drive in with a screwdriver, cutting a thread rather than forcing one?", "Does the head pull down firm, and stay firm after taking it out and back in twice?", "Does the plate stay whole round the hole, no split, no bulge underneath?", "Does a screw drop through the Ø2.9 hole?"],
+    "print": "Print base down, no supports, in the enclosure's material (PETG)."
+  }
+}
