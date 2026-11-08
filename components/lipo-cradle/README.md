@@ -31,6 +31,65 @@ echo(lipoHeadroom("602530"));   // 7.1: the lid must clear this above the floor
 `leadSide` is `"-x"` (the tab end, default), `"+x"`, `"-y"` or `"+y"`; `gap` sets its width.
 `pcm` adds length at the tab end for a protection board that sticks out past the cell.
 
+## On a carrier
+
+On the [carrier](../carrier/) grid the cradle sits on a plate with a [bridge](../bridge/) across
+the pack: two posts beside its long sides and a separate bar that snaps into them with a pad of
+foam under it. The strap bars stay off; the bridge does their job. The carrier frame is the
+cradle's: the plate's centre under the pack's centre, Z = 0 on the plate's top.
+
+```openscad
+use <../lib/hardware-library/components/carrier/carrier.scad>
+use <../lib/hardware-library/components/lipo-cradle/lipo-cradle.scad>
+
+plan = lipoCarrierPlan("602530");          // [4, 5, 0]: a 4 x 5 plate, the bar over the pack's middle
+nx = plan[0]; ny = plan[1];
+translate([x, y, floorTop])                // floor frame: floor top, under the carrier's centre
+{
+  carrierBosses(nx, ny);                   // "tap": add to the floor
+  translate([0, 0, crSeatZ()]) { lipoCarrier("602530"); if ($preview) lipoCarrierGhost("602530"); }
+}
+translate([x, y, floorTop]) carrierFloorCut(nx, ny, floorThick);   // in the floor's difference()
+echo(lipoCarrierHeight("602530"));         // 10: the bar's top above the plate, which a lid must clear
+
+lipoBridgeBar("602530");                   // the bar: export this on its own
+```
+
+**Size: 4 × 5 (40 × 50) for the 602530.** The cradle is 34 × 29 outside; the bar crosses the
+pack's **width**, so the posts stand beside the long sides, 36.5 apart (1 clear of the cradle each
+side) and 42 over all: 5 units across the pack and 4 along it. Across the length it would be 5 × 3,
+but the −X post would stand in front of the lead gap in the end wall, so the shorter span it is;
+`leadSide` must be an end. The plate stays solid under the posts and the cradle wall (`open = false`
+to `carrierPlate`), with a window under the pack 3 inside the wall (24 × 19) as the fit piece has;
+`open = false` keeps it whole. The bar is its own print, `lipoBridgeBar(name)`, drawn flat on its
+back, feet up.
+
+What holds the pack: the bar's ends sit on the post tops, 8 above the plate (pack 6 + 3 foam − 1
+squeeze), so the foam, not a hard edge, presses the pouch; a pouch that swells pushes into the foam.
+To take it out, press one barb in with a thumbnail and lift that end, or squeeze both and lift the
+bar off, then lift the pack; the lead leaves through the end wall's gap and over the plate's −X edge
+(it can drop into the 4 mm under a carrier on bosses). The screws' heads need a driver: nothing on the
+plate comes within 3 of a hole's centre (`lipoCarrierKeep`), and `lipoCarrier()` stops if it would.
+
+`lipoCarrierSize(name)` is the smallest plate the cradle and posts fit on; `lipoCarrierPlan(name)`
+→ `[nx, ny, barAt]` is the one to use: on a side of 6 units or more the carrier puts a hole near
+its middle, which a cradle longer than about 44 lands on, so for the longer packs it moves the bar
+along the pack (`barAt`) and grows the plate until every hole is clear. Pass `size` or `barAt` to
+`lipoCarrier()` to override it. `lipoBridge(name)` → `[span, h]`.
+
+| Pack | Cradle outside | Carrier | Bar at | Bar top above the plate |
+|---|---|---|---|---|
+| 402030 / 502030 / 902030 | 34 × 24 | 4 × 4 | 0 | 8 / 9 / 13 |
+| **602530** | 34 × 29 | **4 × 5** | 0 | 10 |
+| 503035 | 39 × 34 | 4 × 5 | 0 | 9 |
+| 403048 / 603048 | 52 × 34 | 6 × 5 | 4 | 8 / 10 |
+| 503450 / 603450 / 103450 | 54 × 38 | 7 × 6 | 9 | 9 / 10 / 14 |
+| 605060 | 64 × 54 | 8 × 7 | 4 | 10 |
+| 803860 / PKCell-2000 | 64 × 42 | 8 × 6 | 4 | 12 |
+
+The bridge's barb and foot clearance, and the foam, are the bridge's **CAL** values; the cradle's
+clearance is this part's. Nothing new to calibrate here.
+
 ## Sizes
 
 LiPo pouch cells are named by size: **TTWWLL**, thickness in tenths of a mm, then width and
@@ -70,6 +129,10 @@ the controller project's parts sheet for the two packs in hand. Everything here 
 | `lipoSwell` | 10 % | Headroom over the thickness for a pouch that swells with age. A visibly swollen pack is scrap |
 | `lipoTopGap` | 0.5 | Above the swollen pack, under the lid |
 | `lipoStrapGap` / `lipoStrapBar` | 2.0 / 2.0 | Strap bars: 2 from the wall and off the floor, 2 × 2 bar. Bridges the strap width + 1 |
+| `lipoBarMargin` | 1 | On a carrier: the bridge posts' inner faces to the cradle's outside, each side (`brSpanFor`) |
+| `lipoCarrierRim` | 3 | Plate left solid inside the cradle wall round the window under the pack, as the fit piece's pads |
+| `lipoWindowMin` | 8 | No window under a pack narrower than this: not worth the plastic |
+| `lipoCarrierKeep` | 3 | Hole centre to any plastic on the carrier: the M2.5 head is Ø4.4 and a driver has to land on it |
 
 ## Fit piece
 

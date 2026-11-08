@@ -15,6 +15,16 @@
       "move": {"label": "Drop the pack in", "axis": "z", "from": 10, "to": 0}
     },
     {
+      "id": "carrier", "label": "On a carrier",
+      "caption": "The 602530's carrier: a 4 × 5 plate (40 × 50) with the cradle on it, a window under the pack, and the bridge's posts 36.5 apart beside its long sides. Drag the slider to lower the pack and its bar: in use the pack drops into the cradle first, then the bar (a separate print, 3 mm foam under it) snaps down into the posts and lands on their tops, 8 above the plate. To take it out, press a barb in with a thumbnail or squeeze both and lift the bar off, then lift the pack; the lead leaves through the gap in the end wall, over the plate's edge.",
+      "parts": [
+        {"name": "carrier", "scad": "views/carrier.scad", "role": "plastic", "label": "Carrier, cradle and posts"},
+        {"name": "packCarrier", "scad": "views/pack.scad", "role": "component", "label": "602530 pack", "moves": true},
+        {"name": "bar", "scad": "views/bar.scad", "role": "plastic", "label": "Bar (separate print)", "moves": true}
+      ],
+      "move": {"label": "Drop the pack in", "axis": "z", "from": 12, "to": 0}
+    },
+    {
       "id": "fit", "label": "Fit piece",
       "caption": "Four cradles for the 602530 on open floor pads, marked with 1 to 4 engraved dots: three clearances, and the 0.4 again with strap bars.",
       "parts": [
@@ -34,6 +44,12 @@
       "title": "The cradle",
       "rows": [["Gap round the pack", "0.4"], ["Wall", "1.6 × 4 high"], ["Lead gap", "12"], ["Headroom for swelling", "thickness + 10 % + 0.5"], ["Strap bars", "optional, 2 × 2 over a 2 gap"]],
       "badge": ["cal", "To test"], "badgeNote": "the clearance is set by the fit piece"
+    },
+    {
+      "title": "The carrier",
+      "rows": [["Size, 602530", "4 × 5 (40 × 50); four M2.5 × 6"], ["Pack top above the plate", "6"], ["Held by", "a bridge across the pack's width: posts 36.5 apart, bar 8 above the plate on 3 foam squashed by 1"], ["Bar top", "10: a lid must clear it"], ["Window under the pack", "24 × 19, the plate 3 inside the wall"], ["Release", "press a barb in, or squeeze both; lift the bar off, lift the pack out"]],
+      "note": "The bar is a separate print, flat on its back. Longer packs meet the mid hole of a 6+ unit side: lipoCarrierPlan() moves the bar along the pack and grows the plate until every hole is clear.",
+      "badge": ["ok", "Design"], "badgeNote": "sized from the pack table; the bridge's CAL values apply"
     }
   ],
   "fit": {
