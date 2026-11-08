@@ -15,6 +15,17 @@
       "move": {"label": "Slide the board in", "axis": "x", "from": 6, "to": 0}
     },
     {
+      "id": "carrier", "label": "On a carrier",
+      "caption": "The same four posts on a 7 × 3 carrier (70 × 30), self-tapping, with a 2 × 3.5 lip across the USB end that bears on the box wall's inner face. Drag the slider to set the board down on the posts; four M2 × 6 then hold it. The carrier goes into the box board first: slide it along the boss tops until the lip meets the wall and the socket is in its pocket, then six M2.5 × 6. Out is the reverse: undo the six, slide it back. The two USB-end posts are cut flush with the plate's edge and their pilot holes show there: the wall closes them.",
+      "parts": [
+        {"name": "carrier", "scad": "views/carrier.scad", "role": "plastic", "label": "Carrier 7 × 3"},
+        {"name": "carrierScrews", "scad": "views/carrier-screws.scad", "defines": {"which": "carrier"}, "role": "metal", "label": "M2.5 × 6 to the floor"},
+        {"name": "carrierBoard", "scad": "views/carrier-board.scad", "role": "board", "label": "FireBeetle", "moves": true},
+        {"name": "boardScrews", "scad": "views/carrier-screws.scad", "defines": {"which": "board"}, "role": "metal", "label": "M2 × 6", "moves": true}
+      ],
+      "move": {"label": "Set the board down", "axis": "z", "from": 12, "to": 0}
+    },
+    {
       "id": "fixed", "label": "Screwed down",
       "caption": "M2 × 8 button heads from the top into nuts trapped in the floor. The two by the wall come down through shallow channels in its inner face: the heads overlap the wall by about 1 mm. Cut it open to see the nut traps.",
       "parts": [
@@ -43,6 +54,12 @@
       "title": "The holder",
       "rows": [["Posts", "Ø5, 4.7 tall, M2 nut trap in a 2.0 floor"], ["Screws", "M2 × 8 button head"], ["Board's edge", "0.93 into a 2.4 wall"], ["Socket axis", "7.9 above the floor"], ["Light hole", "Ø1.5, 0.2 above the board"], ["Head channels", "Ø4.1, leave 1.1 of wall"]],
       "badge": ["cal", "To test"], "badgeNote": "post position and nut v tap set by the fit piece"
+    },
+    {
+      "title": "The carrier",
+      "rows": [["Plate", "7 × 3 (70 × 30), opened except under the posts; six M2.5 × 6"], ["Posts", "Ø5 × 4.7, self-tapping, M2 × 6 (4.4 of thread, pilot 0.2 into the plate)"], ["Wall lip", "2.0 × 3.5 across the USB end: the plate's −X edge is the wall's inner face, fbCarrierWallX() = −35"], ["Board's edge", "0.93 past the plate, into the wall's relief; socket flush, axis 7.9 above the plate"], ["Board top", "6.3 above the plate; battery socket 11.3; above the floor add crSeatZ() (5.6)"], ["USB-end posts", "plain pedestals: the socket pocket holds that end, the far pair takes the screws. usbPosts = \"tap\" taps them too, cut flush with the plate edge (they sit 0.77 inside the wall face)"]],
+      "note": "Holds by four M2 screws; comes out by undoing them. Cut the carrier for the wall it will meet (wall = 2.4): the board's edge lands 1.47 − wall from the wall face, and the posts follow it.",
+      "badge": ["ok", "Design"], "badgeNote": "carrier standard 2026-11-08"
     }
   ],
   "fit": {

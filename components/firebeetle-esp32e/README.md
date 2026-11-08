@@ -55,6 +55,68 @@ point in the board frame (to place, say, a lid window over the RGB LED). `posts 
 `"far"` puts just two of them. Keep the box's side walls clear of the side buttons and the
 battery plug (below).
 
+## On a carrier
+
+On the [carrier](../carrier/) grid the same four posts stand on a **7 × 3** plate (70 × 30),
+self-tapping, with a **wall lip** across the USB end: a 2.0 × 3.5 bar along the plate's −X edge
+that bears on the box wall's inner face. The carrier's Ø2.9 holes give it 0.2 of play on its
+screws; the lip takes that out, so the socket lands flush however the screws pull. The plate's
+−X edge *is* the wall's inner face: `fbCarrierWallX()` = −35, and the box designer lays the grid
+so that line lands on the wall.
+
+```openscad
+use <../lib/hardware-library/components/carrier/carrier.scad>
+use <../lib/hardware-library/components/firebeetle-esp32e/firebeetle-esp32e.scad>
+
+// floor frame: floor top, under the carrier's centre; the box wall at the carrier's -X edge
+translate([x, y, floorTop])
+{
+  carrierBosses(7, 3);                                          // "tap": add to the floor
+  translate([0, 0, crSeatZ()]) { fbCarrier(); if ($preview) fbCarrierGhost(); }
+}
+// in the floor's and wall's difference():
+translate([x, y, floorTop]) carrierFloorCut(7, 3, floorThick, "tap");
+translate([x, y, floorTop]) translate([0, 0, crSeatZ()]) translate(fbCarrierAt())
+  fbWallCut("ESP32-E", wall = 2.4, channelTop = wallTop - floorTop - crSeatZ());
+```
+
+`fbCarrierAt()` = [−35, −0.02, 0] is where this part's frame (wall face, socket axis, floor top)
+sits in the carrier's, same axes, so `fbWallCut` goes in the wall at that point with the carrier's
+seat added; `fbFloorCut` isn't used. **The carrier is cut for the wall it meets**: the board's
+edge lands overhang − wall = −0.93 from the wall face (into the wall's relief, which is what puts
+the socket face flush), and the posts follow it. Pass `wall` to `fbCarrier`, `fbCarrierAt` and
+`fbWallCut` alike; `fbPostShift` moves the posts as it does on the floor.
+
+**Why 7 × 3.** Across, the holes are 22.0 apart and the posts Ø5: 27, three units. Along, the far
+posts reach 59.9 from the wall face, which 6 units would just take, but that puts them 2.6 from
+the corner holes, on top of them; at 7 they are 7.7 clear, and the spare 10 at the antenna end is
+where the plate's middle hole pair goes. `fbCarrierSize(v, wall)` works this out from the table:
+7 × 3 for the whole FireBeetle 2 family at any wall from 2.0 up (a thinner wall moves the USB
+posts onto the corner holes and it grows to 7 × 4), 6 × 5 for the old M3 FireBeetle ESP32.
+
+**What holds it.** The board sits on the post tops, 4.7 up, and four **M2 × 6** tap into them:
+4.4 of thread, the pilot hole running on 0.2 into the plate (an M2 × 8 would come out
+underneath; `fbCarrier` stops with an error and says so). Undo the four and lift it off. The
+carrier itself goes into the box with the board on it, slid along the boss tops until the lip
+meets the wall and the socket is in its pocket, then its six M2.5 × 6.
+
+**The USB-end posts.** Their holes are 1.7 in from a board edge that is 0.93 inside the wall, so
+their axes are 0.77 inside the wall face. On the floor that didn't matter: the posts merged with
+the wall. On the carrier a whole post can't exist there, so by default (`usbPosts = "rest"`) that
+pair are plain pedestals: the socket's pocket in the wall holds the USB end, as the S3's carrier
+does, and the far pair carries the screws. `usbPosts = "tap"` taps all four: the USB-end posts
+are then cut off flush with the plate's edge and merged with the lip, and the Ø1.6 pilot hole,
+0.8 from its axis, is open to that face by 0.03 (`fbCarrierUsbSkin()`; a 0.4 nozzle leaves about
+a 1 mm slit). In the box the wall closes it; on the bench the screw threads into the rest of the
+hole. Either way the pair are 4.35 from the corner holes, where an M2.5 head (Ø4.4) would touch
+them: each has a Ø5.0 × 1.7 notch for it.
+
+Stack-up above the box floor with the `"tap"` fixing (add 0 for `"nut"` or the bench, which seat
+4 lower): plate 4.0–5.6, lip to 9.1, posts to 10.3, board 10.3–11.9, socket 11.9–15.1 (axis
+13.5), battery socket to 16.9. The wall's board relief starts at 10.0, so the lip bears on plain
+wall. `fbCarrierTop()` 6.3 and `fbCarrierHeight()` 11.3 are above the plate; headers, if fitted,
+are not counted.
+
 ## Sizes
 
 `fbVariants`, selected by name. All four share the hole layout and the post; the wall cut is
@@ -113,6 +175,14 @@ ESP32-E values unless said.
 | `fbLedHoleDia` / `fbLedHoleLift` | 1.5 / 0.2 | Light hole, its bottom just above the board's top, in line with the LED |
 | `fbLedReach` | 3.0 | Only cut the light hole when the LED is this close to the USB edge |
 | Board's edge | 0.93 into the wall | `usbcBoardEdgeX(2.4, 1.47)`: the socket face flush |
+| `fbCarrierWall` | 2.4 | The wall the carrier is cut for: it sets where the board's edge, and so the posts, land from the wall face |
+| `fbCarrierScrewLen` | 6 | M2 × 6 into the posts: 4.4 of thread. The pilot runs 0.2 into the plate; an M2 × 8 would come out underneath |
+| `fbCarrierLip` × `fbCarrierLipH` | 2.0 × 3.5 | The wall lip: tall enough to square the carrier to the wall, under the board (1.2 clear) and below the wall's relief (0.9 clear) |
+| `fbCarrierPad` | 2.0 | Plate kept solid round each post when the plate is opened |
+| `fbCarrierHeadGap` | 0.3 | Notch in a post for an M2.5 head beside it: Ø5.0, 1.7 tall |
+| `fbCarrierHoleClear` | 0 | A post may stand at a carrier hole's edge (the notch keeps it 1.05 off where the head is); closer, the carrier grows a unit |
+| `fbCarrierSkin` / `fbCarrierRunout` | 0.6 / 0.5 | Plate left under a pilot hole; pilot past the screw's tip (as carrier) |
+| `fbCarrierBatteryH` | 5.0 | The PH2.0 socket above the board: `fbCarrierHeight()` |
 
 ## Fit piece
 
