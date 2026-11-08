@@ -16,6 +16,17 @@
       "move": {"label": "Pull the board back", "axis": "x", "from": 0, "to": 3}
     },
     {
+      "id": "carrier", "label": "On a carrier",
+      "caption": "A 7 × 3 carrier, made for a 2.4 wall (not drawn: its inner face is the plate's left edge, where the lip is). The board sits on a frame pedestal between its pin rows, 8 up so the pins, which point down 7.7, end just above the plate. In the box the USB end goes into the wall's socket pocket first, then the back end is pressed down: drag the slider. Its edge rides the two hooks' lead-ins either side of the module and they snap over it; the stop under the module takes the plug's push. To take it out, lift the back of the board by the module (the hooks cam open) and draw the socket out of the wall.",
+      "parts": [
+        {"name": "carrier", "scad": "views/carrier.scad", "role": "plastic", "label": "Carrier 7 × 3"},
+        {"name": "cboard", "scad": "views/carrier-board.scad", "role": "board", "label": "Board", "moves": true},
+        {"name": "cmetal", "scad": "views/carrier-board.scad", "defines": {"part": "metal"}, "role": "metal", "label": "Module and USB ports", "moves": true},
+        {"name": "cpins", "scad": "views/carrier-board.scad", "defines": {"part": "pins"}, "role": "metal", "label": "Header pins", "moves": true}
+      ],
+      "move": {"label": "Press the board down", "axis": "z", "from": 12, "to": 0}
+    },
+    {
       "id": "fit", "label": "Fit piece",
       "caption": "The USB end of four holders on one strip of 2.4 wall, marked 1 to 4 dots: the open port's face 0.62, 0.8 and 1.0 back from the outside, and the tape squashed to 0.7.",
       "parts": [
@@ -36,6 +47,12 @@
       "title": "The holder",
       "rows": [["Pedestal", "40 × 14 × 2.5, 1.0 tape"], ["Outline gap", "0.4 per side; wall 0.8 above the underside"], ["Open port", "face 0.62 back, 0.15 per side"], ["Closed port", "blind pocket, 0.47 of wall in front"], ["Floor behind the wall", "about 62 × 31"]],
       "badge": ["cal", "To test"], "badgeNote": "the recess and tape are set by the fit piece"
+    },
+    {
+      "title": "The carrier",
+      "rows": [["Plate", "7 × 3 (70 × 30), solid; M2.5 at the corners and the mid pair"], ["Fixing", "the carrier standard: tap bosses, nut traps or the bench"], ["Pedestal", "40 × 14 frame, 1.6 walls, 8.0 tall: the pins end 0.3 above the plate"], ["Board top above the plate", "9.0; port axis 10.6; module top 12.1"], ["Held by", "two 4-wide snap hooks over the back edge, 0.5 either side of the module; the wall's socket pocket at the front"], ["Back stop", "15 × 1.2, 8.8 tall, under the module's overhang"], ["Wall lip", "2.0 × 22.75 × 3.5 across the USB end, between the pin rows"], ["Release", "lift the back of the board: the hooks cam open"]],
+      "note": "The lip's outer face is the plate's edge: place the carrier's grid so it lands on the wall's inner face, and cut the wall with s3CarrierWallCut() at the same place. Hooks at 9.0 need no flex relief (2.9 % strain, about 11 N each).",
+      "badge": ["cal", "To test"], "badgeNote": "pin length and hook reach on the board in hand"
     }
   ],
   "fit": {
