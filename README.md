@@ -14,6 +14,9 @@ it open, slide the board in, download the fit piece.
 
 | Component | What | Status |
 |---|---|---|
+| [carrier](components/carrier/) | **The carrier system:** parts sit on small plates on a 10 mm M2.5 grid; a box floor offers only the grid points it uses, a bench plate is the whole grid | measured |
+| [snap-hook](components/snap-hook/) | Cantilever hook over a PCB edge: a board with no holes clicks onto its carrier | measured |
+| [bridge](components/bridge/) | Snap-on bar between two posts, foam under it: holds a LiPo or anything that can't be hooked | measured |
 | [screw-post](components/screw-post/) | Round post for a board's mounting hole: M2 / M2.5 / M3, nut trap or self-tap | measured |
 | [usb-c-port](components/usb-c-port/) | USB-C socket flush in a wall, walled in on all sides; the board's end tucks into the wall | measured |
 | [board-pocket](components/board-pocket/) | Holder for a board without holes: pedestal + foam tape, outline wall, lid pad maths | measured |

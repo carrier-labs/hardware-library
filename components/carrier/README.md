@@ -81,11 +81,15 @@ Any nx × ny. Carriers the controller project plans, from its parts' footprints:
 
 | Part | Carrier | Open? |
 |---|---|---|
-| TTL-RS485 module (JZK, 43 × 15.5) | 5 × 2 | solid: the pocket covers it |
-| WAGO 221-415 clip | 3 × 4 | open |
-| 602530 LiPo cradle | 4 × 3 | open |
+| TTL-RS485 module (JZK, 43 × 15.5) | 5 × 3 | solid: the hooks' relief slots need plate |
+| WAGO 221-415 clip | 3 × 5 | opened under the body; on a 3 × 4 the screw heads land under its corners |
+| 602530 LiPo cradle | 4 × 5 | window under the pack; the bridge posts need the width |
 | FireBeetle 2 on M2 posts | 7 × 3 | open, with the mid hole pair |
-| ESP32-S3 DevKitC-1 pocket | 7 × 3 | open |
+| ESP32-S3 DevKitC-1 pocket | 7 × 3 | solid; a unit longer than the hooks need so their feet stay out of the screw-head cells |
+
+The screw heads (Ø4.4, 1.4 proud) sit on the plate at every hole: keep the holder's plastic clear of a
+10 × 10 cell round each hole, or at least head radius + 0.5 from its centre, and leave a driver room above. That
+rule, not the holder's outline, is what usually sets the size.
 
 Smallest useful: 2 × 2 (a single WAGO 221-412). Plates whose opening would be narrower than 8
 stay solid (2 × 2, 3 × 1, 4 × 1).
